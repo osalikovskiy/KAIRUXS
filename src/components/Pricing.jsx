@@ -1,8 +1,13 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 export default function Pricing({ t, cardVariants, sectionVariants }) {
   const sectionRef = useRef(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -65,10 +70,9 @@ export default function Pricing({ t, cardVariants, sectionVariants }) {
       ref={sectionRef}
       className="brndz-section pricing-section-new"
       id="pricing"
-      variants={sectionVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.25 }}
+      initial={{ opacity: 0, visibility: "hidden" }}
+      animate={isMounted ? { opacity: 1, visibility: "visible" } : { opacity: 0, visibility: "hidden" }}
+      transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
     >
       <motion.div
         className="pricing-parallax-glow pricing-parallax-glow-left"
@@ -102,11 +106,13 @@ export default function Pricing({ t, cardVariants, sectionVariants }) {
             className={`pricing-card-new ${
               pkg.highlight ? "pricing-card-highlight-new" : ""
             }`}
-            variants={cardVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            custom={index}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.5,
+              ease: "easeOut",
+              delay: 0.3 + (index * 0.08)
+            }}
           >
             <div className="pricing-card-metal-ring" />
             <div className="pricing-card-content">

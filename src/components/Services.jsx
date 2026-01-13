@@ -1,6 +1,13 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 export default function Services({ t, sectionVariants, cardVariants }) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const services = [
     { key: "services_brand", titleKey: "services_brand_title", descKey: "services_brand_desc" },
     { key: "services_digital", titleKey: "services_digital_title", descKey: "services_digital_desc" },
@@ -12,10 +19,9 @@ export default function Services({ t, sectionVariants, cardVariants }) {
     <motion.section
       className="brndz-section"
       id="services"
-      variants={sectionVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.25 }}
+      initial={{ opacity: 0, visibility: "hidden" }}
+      animate={isMounted ? { opacity: 1, visibility: "visible" } : { opacity: 0, visibility: "hidden" }}
+      transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
       style={{ position: 'relative' }}
     >
       {/* Decorative Flowers */}
@@ -36,11 +42,13 @@ export default function Services({ t, sectionVariants, cardVariants }) {
           <motion.div
             key={service.key}
             className="metal-card service-card"
-            variants={cardVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            custom={index}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.5,
+              ease: "easeOut",
+              delay: 0.3 + (index * 0.08)
+            }}
           >
             <div className="metal-pill" />
             <h3>{t(service.titleKey)}</h3>
