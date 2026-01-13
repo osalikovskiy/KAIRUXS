@@ -10,7 +10,43 @@ export default function ContentLibrary({ t }) {
     const [activeTab, setActiveTab] = useState("visual");
     const [selectedItem, setSelectedItem] = useState(null);
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
     const videoRefs = useRef([]);
+
+    // Preload image before opening modal
+    const openModal = (item) => {
+        setIsLoading(true);
+        
+        // Determine first image to preload
+        let firstImageSrc = null;
+        if (item.media && item.media.length > 0) {
+            // For stories/reels - preload first media item if it's an image
+            if (item.media[0].type === 'image') {
+                firstImageSrc = item.media[0].src;
+            }
+        } else if (item.image || item.mainImage) {
+            // For visual - preload main image
+            firstImageSrc = item.image || item.mainImage;
+        }
+
+        if (firstImageSrc) {
+            const img = new Image();
+            img.onload = () => {
+                setSelectedItem(item);
+                setIsLoading(false);
+            };
+            img.onerror = () => {
+                // Even if image fails, open modal
+                setSelectedItem(item);
+                setIsLoading(false);
+            };
+            img.src = firstImageSrc;
+        } else {
+            // No image to preload (video first), open immediately
+            setSelectedItem(item);
+            setIsLoading(false);
+        }
+    };
 
     // Force video play when modal opens or slide changes
     useEffect(() => {
@@ -34,7 +70,7 @@ export default function ContentLibrary({ t }) {
     // Handle slide change to autoplay videos
     const handleSlideChange = (swiper) => {
         setCurrentSlide(swiper.activeIndex);
-        
+
         // Pause all videos
         videoRefs.current.forEach((video) => {
             if (video && video.tagName === 'VIDEO') {
@@ -75,9 +111,9 @@ export default function ContentLibrary({ t }) {
             { id: 5, type: "visual", mainImage: "/visual/visual5-main.JPEG", image: "/visual/visual5.PNG", category: "Korean Beauty" },
         ],
         stories: [
-            { 
-                id: 1, 
-                type: "story", 
+            {
+                id: 1,
+                type: "story",
                 mainImage: "/stories/story1-main.PNG",
                 media: [
                     { type: "image", src: "/stories/story1-1.PNG" },
@@ -88,9 +124,9 @@ export default function ContentLibrary({ t }) {
                 ],
                 category: "Nails Stories"
             },
-            { 
-                id: 2, 
-                type: "story", 
+            {
+                id: 2,
+                type: "story",
                 mainImage: "/stories/story2-main.PNG",
                 media: [
                     { type: "image", src: "/stories/story2-1.PNG" },
@@ -101,22 +137,22 @@ export default function ContentLibrary({ t }) {
                 ],
                 category: "Parfume Stories"
             },
-            { 
-                id: 3, 
-                type: "story", 
+            {
+                id: 3,
+                type: "story",
                 mainImage: "/stories/story3-main.PNG",
                 media: [
                     { type: "image", src: "/stories/story3-1.JPG" },
                     { type: "image", src: "/stories/story3-2.JPG" },
                     { type: "image", src: "/stories/story3-3.JPG" },
-                    { type: "image", src: "/stories/story3-4.JPG" },
-                    { type: "image", src: "/stories/story3-5.JPG" }
+                    { type: "image", src: "/stories/story3-5.JPG" },
+                    { type: "image", src: "/stories/story3-4.JPG" }
                 ],
                 category: "Nail Bar Stories"
             },
-            { 
-                id: 4, 
-                type: "story", 
+            {
+                id: 4,
+                type: "story",
                 mainImage: "/stories/story4-main.PNG",
                 media: [
                     { type: "image", src: "/stories/story4-1.JPG" },
@@ -125,9 +161,9 @@ export default function ContentLibrary({ t }) {
                 ],
                 category: "Beauty Salon Stories"
             },
-            { 
-                id: 5, 
-                type: "story", 
+            {
+                id: 5,
+                type: "story",
                 mainImage: "/stories/story5-main.PNG",
                 media: [
                     { type: "image", src: "/stories/story5-1.JPG" },
@@ -208,6 +244,18 @@ export default function ContentLibrary({ t }) {
 
     const currentContent = content[activeTab];
 
+    // Preload first 5 images when tab changes
+    useEffect(() => {
+        const preloadImages = currentContent.slice(0, 5);
+        preloadImages.forEach(item => {
+            const imgSrc = item.mainImage || item.image;
+            if (imgSrc) {
+                const img = new Image();
+                img.src = imgSrc;
+            }
+        });
+    }, [activeTab, currentContent]);
+
     return (
         <section className="content-library-section" id="content-library" style={{ position: 'relative' }}>
             {/* Decorative Flower */}
@@ -285,11 +333,11 @@ export default function ContentLibrary({ t }) {
                             }}
                             className={`content-swiper ${activeTab === "visual" ? "visual-swiper" : ""}`}
                         >
-                            {currentContent.map((item) => (
+                            {currentContent.map((item, index) => (
                                 <SwiperSlide key={item.id}>
                                     <div
                                         className={`content-card ${activeTab === "visual" ? "visual" : "story"}`}
-                                        onClick={() => setSelectedItem(item)}
+                                        onClick={() => openModal(item)}
                                     >
                                         <div className="content-card-inner">
                                             <div className="content-card-media">
@@ -297,6 +345,9 @@ export default function ContentLibrary({ t }) {
                                                     <img 
                                                         src={item.mainImage || item.image} 
                                                         alt={item.category}
+                                                        loading={index < 5 ? "eager" : "lazy"}
+                                                        fetchpriority={index < 3 ? "high" : "auto"}
+                                                        decoding="async"
                                                         style={{
                                                             width: '100%',
                                                             height: '100%',
@@ -320,9 +371,35 @@ export default function ContentLibrary({ t }) {
                 </AnimatePresence>
             </div>
 
+            {/* Loading indicator */}
+            <AnimatePresence>
+                {isLoading && (
+                    <motion.div
+                        className="content-modal"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <div style={{
+                            width: '50px',
+                            height: '50px',
+                            border: '3px solid rgba(233, 166, 181, 0.3)',
+                            borderTop: '3px solid var(--brndz-pink)',
+                            borderRadius: '50%',
+                            animation: 'spin 1s linear infinite'
+                        }} />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* Lightbox Modal */}
             <AnimatePresence>
-                {selectedItem && (
+                {selectedItem && !isLoading && (
                     <motion.div
                         className="content-modal"
                         initial={{ opacity: 0 }}
@@ -340,12 +417,12 @@ export default function ContentLibrary({ t }) {
                         <div className="modal-flower" style={{ bottom: '5%', left: '10%', width: '300px', height: '300px' }}>
                             <img src="/flowers/flower3.PNG" alt="" />
                         </div>
-                        
+
                         {/* Background text watermark */}
                         <div className="modal-backdrop-text">
                             KAIRUXS NOT JUST SMM
                         </div>
-                        
+
                         <motion.div
                             className="content-modal-inner"
                             initial={{ scale: 0.9, opacity: 0 }}
@@ -360,7 +437,7 @@ export default function ContentLibrary({ t }) {
                             >
                                 ✕
                             </button>
-                            
+
                             <div className="content-modal-media">
                                 {/* For stories with multiple media - show Swiper */}
                                 {selectedItem.media && selectedItem.media.length > 0 ? (
@@ -376,7 +453,7 @@ export default function ContentLibrary({ t }) {
                                             // Clear refs
                                             videoRefs.current = [];
                                             setCurrentSlide(0);
-                                            
+
                                             // Autoplay first slide if it's video after a delay
                                             setTimeout(() => {
                                                 const firstVideo = videoRefs.current[0];
@@ -436,8 +513,8 @@ export default function ContentLibrary({ t }) {
                                                         />
                                                     </div>
                                                 ) : (
-                                                    <img 
-                                                        src={mediaItem.src} 
+                                                    <img
+                                                        src={mediaItem.src}
                                                         alt={`${selectedItem.category} ${index + 1}`}
                                                         className="content-modal-image"
                                                     />
@@ -448,8 +525,8 @@ export default function ContentLibrary({ t }) {
                                 ) : (
                                     /* For single images (visual) */
                                     (selectedItem.image || selectedItem.mainImage) ? (
-                                        <img 
-                                            src={selectedItem.image || selectedItem.mainImage} 
+                                        <img
+                                            src={selectedItem.image || selectedItem.mainImage}
                                             alt={selectedItem.category}
                                             className="content-modal-image"
                                         />
