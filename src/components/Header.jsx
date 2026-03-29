@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
+import { additionalServiceTags, primaryNavItems } from "../data/site";
+import { scrollToSection } from "../lib/navigation";
 
 export default function Header({ t, LANGS, lang, setLang }) {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const scrollToSection = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
   const go = (id) => {
     setMenuOpen(false);
@@ -34,11 +31,11 @@ export default function Header({ t, LANGS, lang, setLang }) {
         <div className="brndz-logo">KAIRUXS</div>
 
         <nav className="brndz-nav">
-          <button onClick={() => scrollToSection("services")}>{t("nav_services")}</button>
-          <button onClick={() => scrollToSection("pricing")}>{t("nav_pricing")}</button>
-          <button onClick={() => scrollToSection("results")}>{t("nav_results")}</button>
-          <button onClick={() => scrollToSection("content-library")}>{t("nav_cases")}</button>
-          <button onClick={() => scrollToSection("contact")}>{t("nav_contact")}</button>
+          {primaryNavItems.map((item) => (
+            <button key={item.id} onClick={() => scrollToSection(item.id)}>
+              {t(item.labelKey)}
+            </button>
+          ))}
         </nav>
 
         <div className="brndz-header-right">
@@ -77,17 +74,21 @@ export default function Header({ t, LANGS, lang, setLang }) {
       <aside className={`brndz-menu ${menuOpen ? "is-open" : ""}`} aria-hidden={!menuOpen}>
         <div className="brndz-menu-head">
           <div className="brndz-menu-title">Menu</div>
-          <button className="brndz-menu-close" onClick={() => setMenuOpen(false)} aria-label="Close">
+          <button
+            className="brndz-menu-close"
+            onClick={() => setMenuOpen(false)}
+            aria-label="Close"
+          >
             ✕
           </button>
         </div>
 
         <div className="brndz-menu-links">
-          <button onClick={() => go("services")}>{t("nav_services")}</button>
-          <button onClick={() => go("pricing")}>{t("nav_pricing")}</button>
-          <button onClick={() => go("results")}>{t("nav_results")}</button>
-          <button onClick={() => go("content-library")}>{t("nav_cases")}</button>
-          <button onClick={() => go("contact")}>{t("nav_contact")}</button>
+          {primaryNavItems.map((item) => (
+            <button key={item.id} onClick={() => go(item.id)}>
+              {t(item.labelKey)}
+            </button>
+          ))}
         </div>
 
         <div className="brndz-menu-divider" />
@@ -109,12 +110,9 @@ export default function Header({ t, LANGS, lang, setLang }) {
 
         <div className="brndz-menu-subtitle">Additional services</div>
         <div className="brndz-menu-tags">
-          <span>Video production</span>
-          <span>Graphic design</span>
-          <span>Flyers / Business cards</span>
-          <span>Branding</span>
-          <span>Advanced analytics</span>
-          <span>Strategy</span>
+          {additionalServiceTags.map((tag) => (
+            <span key={tag}>{tag}</span>
+          ))}
         </div>
 
         <button className="brndz-menu-cta" onClick={() => go("contact")}>

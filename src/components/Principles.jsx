@@ -1,4 +1,5 @@
 import HorizontalScrollSection from "../ParallaxSection";
+import DecorativeFlower from "./ui/DecorativeFlower";
 
 const slides = [
   {
@@ -27,15 +28,24 @@ export default function Principles() {
   return (
     <HorizontalScrollSection>
       {/* Decorative Flowers for horizontal scroll */}
-      <div className="decorative-flower flower-large flower-delay-1" style={{ position: 'absolute', top: '12%', left: '25vw', zIndex: 0 }}>
-        <img src="/flowers/flower6.PNG" alt="" />
-      </div>
-      <div className="decorative-flower flower-large flower-delay-3" style={{ position: 'absolute', bottom: '15%', left: '150vw', zIndex: 0 }}>
-        <img src="/flowers/flower4.PNG" alt="" />
-      </div>
-      <div className="decorative-flower flower-large flower-delay-2" style={{ position: 'absolute', top: '20%', left: '275vw', zIndex: 0 }}>
-        <img src="/flowers/flower7.PNG" alt="" />
-      </div>
+      <DecorativeFlower
+        imageSrc="/flowers/flower6.PNG"
+        sizeClass="flower-large"
+        delayClass="flower-delay-1"
+        style={{ position: "absolute", top: "12%", left: "25vw", zIndex: 0 }}
+      />
+      <DecorativeFlower
+        imageSrc="/flowers/flower4.PNG"
+        sizeClass="flower-large"
+        delayClass="flower-delay-3"
+        style={{ position: "absolute", bottom: "15%", left: "150vw", zIndex: 0 }}
+      />
+      <DecorativeFlower
+        imageSrc="/flowers/flower7.PNG"
+        sizeClass="flower-large"
+        delayClass="flower-delay-2"
+        style={{ position: "absolute", top: "20%", left: "275vw", zIndex: 0 }}
+      />
 
       {slides.map((slide, index) => (
         <div className="principles-slide" key={index}>

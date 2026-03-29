@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -7,10 +7,32 @@ gsap.registerPlugin(ScrollTrigger);
 export default function HorizontalScrollSection({ children }) {
   const containerRef = useRef(null);
   const wrapperRef = useRef(null);
+  const [useStaticLayout, setUseStaticLayout] = useState(false);
 
   useEffect(() => {
-    if (!containerRef.current || !wrapperRef.current) return;
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compactViewportQuery = window.matchMedia("(max-width: 900px)");
 
+    const syncLayoutMode = () => {
+      setUseStaticLayout(
+        reducedMotionQuery.matches || compactViewportQuery.matches,
+      );
+    };
+
+    syncLayoutMode();
+    reducedMotionQuery.addEventListener("change", syncLayoutMode);
+    compactViewportQuery.addEventListener("change", syncLayoutMode);
+
+    return () => {
+      reducedMotionQuery.removeEventListener("change", syncLayoutMode);
+      compactViewportQuery.removeEventListener("change", syncLayoutMode);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (useStaticLayout || !containerRef.current || !wrapperRef.current) return;
+
+    const containerElement = containerRef.current;
     let ctx = null;
     let timeoutId = null;
 
@@ -35,7 +57,7 @@ export default function HorizontalScrollSection({ children }) {
           x: -scrollDistance,
           ease: "none",
           scrollTrigger: {
-            trigger: containerRef.current,
+            trigger: containerElement,
             start: "top top",
             end: () => `+=${scrollDistance}`,
             scrub: 0.5,
@@ -63,18 +85,28 @@ export default function HorizontalScrollSection({ children }) {
       if (timeoutId) clearTimeout(timeoutId);
       window.removeEventListener("resize", handleResize);
       if (ctx) ctx.revert();
-      // Убиваем все ScrollTrigger для этого компонента
-      ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.vars?.trigger === containerRef.current) {
+      ScrollTrigger.getAll().forEach((trigger) => {
+        if (trigger.vars?.trigger === containerElement) {
           trigger.kill();
         }
       });
     };
-  }, []); // Убираем children из зависимостей, чтобы не пересоздавать ScrollTrigger при смене языка
+  }, [useStaticLayout]);
+
+  if (useStaticLayout) {
+    return (
+      <section ref={containerRef} className="principles-section principles-section-static">
+        <div ref={wrapperRef} className="principles-stack">
+          {children}
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
       ref={containerRef}
+      className="principles-section principles-section-scroll"
       style={{
         position: "relative",
         height: "100vh",
@@ -83,6 +115,7 @@ export default function HorizontalScrollSection({ children }) {
     >
       <div
         ref={wrapperRef}
+        className="principles-track"
         style={{
           display: "flex",
           whiteSpace: "nowrap",

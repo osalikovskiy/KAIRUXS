@@ -1,21 +1,23 @@
-import { motion } from "framer-motion";
 import { useState } from "react";
+import DecorativeFlower from "./ui/DecorativeFlower";
+import SectionHeader from "./ui/SectionHeader";
+import { VariantSection } from "./ui/AnimatedSection";
 
-export default function Contact({ t, sectionVariants }) {
-  const [status, setStatus] = useState("idle"); // idle | loading | success
+export default function Contact({ t }) {
+  const [status, setStatus] = useState("idle"); // idle | loading | success | error
 
   const FORM_ENDPOINT = "https://formspree.io/f/mlggerzp";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (status !== "idle") return;
+    if (status === "loading" || status === "success") return;
     setStatus("loading");
 
     const formData = new FormData(e.target);
 
     try {
-      const res = await fetch(FORM_ENDPOINT, {
+      const response = await fetch(FORM_ENDPOINT, {
         method: "POST",
         body: formData,
         headers: {
@@ -23,15 +25,22 @@ export default function Contact({ t, sectionVariants }) {
         },
       });
 
+      if (!response.ok) {
+        throw new Error(`Form request failed with status ${response.status}`);
+      }
+
+      e.target.reset();
+
       // чуть подержим лоадер, чтобы выглядело приятно
       setTimeout(() => {
         setStatus("success");
       }, 1500);
     } catch (err) {
       console.error(err);
-      setStatus("idle");
+      setStatus("error");
     }
   };
+
   const contactLinks = [
     {
       label: "Telegram",
@@ -51,27 +60,25 @@ export default function Contact({ t, sectionVariants }) {
     },
   ];
   return (
-    <motion.section
-      className="brndz-section brndz-section-last"
-      id="contact"
-      variants={sectionVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.25 }}
-      style={{ position: 'relative' }}
-    >
+    <VariantSection className="brndz-section-last" id="contact">
       {/* Decorative Flowers */}
-      <div className="decorative-flower flower-small flower-delay-1" style={{ top: '10%', left: '8%' }}>
-        <img src="/flowers/flower8.PNG" alt="" />
-      </div>
-      <div className="decorative-flower flower-large flower-delay-2" style={{ bottom: '12%', right: '5%' }}>
-        <img src="/flowers/flower2.PNG" alt="" />
-      </div>
+      <DecorativeFlower
+        imageSrc="/flowers/flower8.PNG"
+        sizeClass="flower-small"
+        delayClass="flower-delay-1"
+        style={{ top: "10%", left: "8%" }}
+      />
+      <DecorativeFlower
+        imageSrc="/flowers/flower2.PNG"
+        sizeClass="flower-large"
+        delayClass="flower-delay-2"
+        style={{ bottom: "12%", right: "5%" }}
+      />
 
-      <div className="section-header">
-        <h2>{t("section_contact_title")}</h2>
-        <p>{t("section_contact_sub")}</p>
-      </div>
+      <SectionHeader
+        title={t("section_contact_title")}
+        description={t("section_contact_sub")}
+      />
 
       <div className="contact-grid">
         <div className="metal-card contact-cta">
@@ -99,7 +106,7 @@ export default function Contact({ t, sectionVariants }) {
             </div>
             <textarea
               rows="4"
-              name="decsriprion"
+              name="description"
               placeholder={t("contact_form_message_placeholder")}
               required
             />
@@ -130,6 +137,11 @@ export default function Contact({ t, sectionVariants }) {
                 </span>
               )}
             </button>
+            {status === "error" && (
+              <p className="contact-form-error" role="alert">
+                {t("contact_form_submit_error")}
+              </p>
+            )}
           </form>
         </div>
 
@@ -155,6 +167,6 @@ export default function Contact({ t, sectionVariants }) {
           </div>
         </div>
       </div>
-    </motion.section>
+    </VariantSection>
   );
 }

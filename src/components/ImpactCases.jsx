@@ -1,27 +1,9 @@
-import React from "react";
 import { motion } from "framer-motion";
-
-const sectionVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: "easeOut" },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.55,
-      ease: "easeOut",
-      delay: 0.08 * i,
-    },
-  }),
-};
+import DecorativeFlower from "./ui/DecorativeFlower";
+import SectionHeader from "./ui/SectionHeader";
+import { VariantSection } from "./ui/AnimatedSection";
+import { sharedCardVariants } from "../lib/animations";
+const MotionArticle = motion.article;
 
 export default function ImpactCases({ t }) {
   const impactCases = [
@@ -65,32 +47,41 @@ export default function ImpactCases({ t }) {
       kpi2Value: "+5k people",
       description: t("results_case4_description"),
     },
+    {
+      id: "fitness-coach",
+      label: t("results_case5_label"),
+      period: t("results_case5_period"),
+      kpi1Label: t("results_case5_kpi1_label"),
+      kpi1Value: "+100k",
+      kpi2Label: t("results_case5_kpi2_label"),
+      kpi2Value: "3-4k",
+      description: t("results_case5_description"),
+    },
   ];
 
   return (
-    <motion.section
-      className="brndz-section impact-section"
-      id="results"
-      variants={sectionVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.25 }}
-      style={{ position: 'relative' }}
-    >
+    <VariantSection className="impact-section" id="results">
       {/* Decorative Flowers */}
-      <div className="decorative-flower flower-medium flower-delay-2" style={{ top: '8%', left: '6%' }}>
-        <img src="/flowers/flower4.PNG" alt="" />
-      </div>
-      <div className="decorative-flower flower-small flower-delay-4" style={{ bottom: '10%', right: '7%' }}>
-        <img src="/flowers/flower8.PNG" alt="" />
-      </div>
+      <DecorativeFlower
+        imageSrc="/flowers/flower4.PNG"
+        sizeClass="flower-medium"
+        delayClass="flower-delay-2"
+        style={{ top: "8%", left: "6%" }}
+      />
+      <DecorativeFlower
+        imageSrc="/flowers/flower8.PNG"
+        sizeClass="flower-small"
+        delayClass="flower-delay-4"
+        style={{ bottom: "10%", right: "7%" }}
+      />
 
-      <div className="impact-header">
-        <h2 className="impact-title">{t("results_title")}</h2>
-        <p className="impact-subtitle">
-          {t("results_subtitle")}
-        </p>
-      </div>
+      <SectionHeader
+        className="impact-header"
+        title={t("results_title")}
+        description={t("results_subtitle")}
+        titleClassName="impact-title"
+        descriptionClassName="impact-subtitle"
+      />
 
       <div className="impact-timeline">
         {impactCases.map((item, index) => (
@@ -101,9 +92,9 @@ export default function ImpactCases({ t }) {
               (index % 2 === 0 ? "impact-row-left" : "impact-row-right")
             }
           >
-            <motion.article
+            <MotionArticle
               className="metal-card impact-card"
-              variants={cardVariants}
+              variants={sharedCardVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
@@ -135,10 +126,10 @@ export default function ImpactCases({ t }) {
 
                 <p className="impact-description">{item.description}</p>
               </div>
-            </motion.article>
+            </MotionArticle>
           </div>
         ))}
       </div>
-    </motion.section>
+    </VariantSection>
   );
 }

@@ -1,13 +1,15 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
+import DecorativeFlower from "./ui/DecorativeFlower";
+import SectionHeader from "./ui/SectionHeader";
+import { RevealSection } from "./ui/AnimatedSection";
+import { createStaggerRevealProps, sectionRevealProps } from "../lib/animations";
+import { scrollToSection } from "../lib/navigation";
 
-export default function Pricing({ t, cardVariants, sectionVariants }) {
+const MotionDiv = motion.div;
+
+export default function Pricing({ t }) {
   const sectionRef = useRef(null);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -60,59 +62,53 @@ export default function Pricing({ t, cardVariants, sectionVariants }) {
     },
   ];
 
-  const scrollToSection = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   return (
-    <motion.section
+    <RevealSection
       ref={sectionRef}
-      className="brndz-section pricing-section-new"
+      className="pricing-section-new"
       id="pricing"
-      initial={{ opacity: 0, visibility: "hidden" }}
-      animate={isMounted ? { opacity: 1, visibility: "visible" } : { opacity: 0, visibility: "hidden" }}
-      transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+      revealProps={sectionRevealProps}
     >
-      <motion.div
+      <MotionDiv
         className="pricing-parallax-glow pricing-parallax-glow-left"
         style={{ y: glowYLeft }}
         aria-hidden="true"
       />
-      <motion.div
+      <MotionDiv
         className="pricing-parallax-glow pricing-parallax-glow-right"
         style={{ y: glowYRight }}
         aria-hidden="true"
       />
 
       {/* Decorative Flowers */}
-      <div className="decorative-flower flower-large flower-delay-1" style={{ top: '8%', left: '3%' }}>
-        <img src="/flowers/flower4.PNG" alt="" />
-      </div>
-      <div className="decorative-flower flower-medium flower-delay-3" style={{ bottom: '5%', right: '6%' }}>
-        <img src="/flowers/flower6.PNG" alt="" />
-      </div>
+      <DecorativeFlower
+        imageSrc="/flowers/flower4.PNG"
+        sizeClass="flower-large"
+        delayClass="flower-delay-1"
+        style={{ top: "8%", left: "3%" }}
+      />
+      <DecorativeFlower
+        imageSrc="/flowers/flower6.PNG"
+        sizeClass="flower-medium"
+        delayClass="flower-delay-3"
+        style={{ bottom: "5%", right: "6%" }}
+      />
 
-      <div className="pricing-section-header">
-        <h2 className="pricing-section-title">{t("pricing_title")}</h2>
-        <p className="pricing-section-subtitle">
-          {t("pricing_subtitle")}
-        </p>
-      </div>
+      <SectionHeader
+        className="pricing-section-header"
+        title={t("pricing_title")}
+        description={t("pricing_subtitle")}
+        titleClassName="pricing-section-title"
+        descriptionClassName="pricing-section-subtitle"
+      />
       <div className="pricing-cards-grid">
         {packages.map((pkg, index) => (
-          <motion.div
+          <MotionDiv
             key={pkg.name}
             className={`pricing-card-new ${
               pkg.highlight ? "pricing-card-highlight-new" : ""
             }`}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.5,
-              ease: "easeOut",
-              delay: 0.3 + (index * 0.08)
-            }}
+            {...createStaggerRevealProps(index)}
           >
             <div className="pricing-card-metal-ring" />
             <div className="pricing-card-content">
@@ -133,17 +129,17 @@ export default function Pricing({ t, cardVariants, sectionVariants }) {
                 {t("pricing_btn")}
               </button>
             </div>
-          </motion.div>
+          </MotionDiv>
         ))}
       </div>
       <div className="pricing-additional-services">
         <div className="pricing-additional-content">
           <h3 className="pricing-additional-title">{t("pricing_additional_title")}</h3>
           <p className="pricing-additional-description">
-            {t("pricing_additional_desc").split('\n').map((line, i) => (
+            {t("pricing_additional_desc").split("\n").map((line, i) => (
               <span key={i}>
                 {line}
-                {i < t("pricing_additional_desc").split('\n').length - 1 && <br />}
+                {i < t("pricing_additional_desc").split("\n").length - 1 && <br />}
               </span>
             ))}
           </p>
@@ -155,6 +151,6 @@ export default function Pricing({ t, cardVariants, sectionVariants }) {
           </button>
         </div>
       </div>
-    </motion.section>
+    </RevealSection>
   );
 }

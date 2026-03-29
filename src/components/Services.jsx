@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import DecorativeFlower from "./ui/DecorativeFlower";
+import SectionHeader from "./ui/SectionHeader";
+import { RevealSection } from "./ui/AnimatedSection";
+import { createStaggerRevealProps, sectionRevealProps } from "../lib/animations";
+const MotionDiv = motion.div;
 
-export default function Services({ t, sectionVariants, cardVariants }) {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+export default function Services({ t }) {
 
   const services = [
     { key: "services_brand", titleKey: "services_brand_title", descKey: "services_brand_desc" },
@@ -16,46 +15,39 @@ export default function Services({ t, sectionVariants, cardVariants }) {
   ];
 
   return (
-    <motion.section
-      className="brndz-section"
-      id="services"
-      initial={{ opacity: 0, visibility: "hidden" }}
-      animate={isMounted ? { opacity: 1, visibility: "visible" } : { opacity: 0, visibility: "hidden" }}
-      transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-      style={{ position: 'relative' }}
-    >
+    <RevealSection id="services" revealProps={sectionRevealProps}>
       {/* Decorative Flowers */}
-      <div className="decorative-flower flower-small flower-delay-2" style={{ top: '5%', right: '10%' }}>
-        <img src="/flowers/flower3.PNG" alt="" />
-      </div>
-      <div className="decorative-flower flower-medium flower-delay-4" style={{ bottom: '10%', left: '5%' }}>
-        <img src="/flowers/flower7.PNG" alt="" />
-      </div>
+      <DecorativeFlower
+        imageSrc="/flowers/flower3.PNG"
+        sizeClass="flower-small"
+        delayClass="flower-delay-2"
+        style={{ top: "5%", right: "10%" }}
+      />
+      <DecorativeFlower
+        imageSrc="/flowers/flower7.PNG"
+        sizeClass="flower-medium"
+        delayClass="flower-delay-4"
+        style={{ bottom: "10%", left: "5%" }}
+      />
 
-      <div className="section-header">
-        <h2>{t("section_services_title")}</h2>
-        <p>{t("section_services_sub")}</p>
-      </div>
+      <SectionHeader
+        title={t("section_services_title")}
+        description={t("section_services_sub")}
+      />
 
       <div className="grid grid-4">
         {services.map((service, index) => (
-          <motion.div
+          <MotionDiv
             key={service.key}
             className="metal-card service-card"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.5,
-              ease: "easeOut",
-              delay: 0.3 + (index * 0.08)
-            }}
+            {...createStaggerRevealProps(index)}
           >
             <div className="metal-pill" />
             <h3>{t(service.titleKey)}</h3>
             <p>{t(service.descKey)}</p>
-          </motion.div>
+          </MotionDiv>
         ))}
       </div>
-    </motion.section>
+    </RevealSection>
   );
 }

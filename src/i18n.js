@@ -117,6 +117,7 @@ export const translations = {
     contact_form_submit: "Send request →",
     contact_form_submit_loading: "Sending…",
     contact_form_submit_success: "We'll be in touch",
+    contact_form_submit_error: "Something went wrong. Please try again.",
 
     // Content Library
     content_library_title: "CONTENT LIBRARY",
@@ -156,6 +157,13 @@ export const translations = {
     results_case4_kpi1_label: "Telegram",
     results_case4_kpi2_label: "Trust",
     results_case4_description: "Built a clear content structure and communication style for a personal brand in crypto. Focused on explanations, trust and consistency across platforms.",
+
+    // Case 5: Fitness Coach
+    results_case5_label: "Fitness Coach",
+    results_case5_period: "2 months collaboration",
+    results_case5_kpi1_label: "Views",
+    results_case5_kpi2_label: "Reels",
+    results_case5_description: "Built a strong content system and visual identity for a fitness coach. Increased profile visibility, audience engagement and consistency through Reels and structured content.",
 
     contact_quick_title: "Quick contact",
     contact_note_label: "Mode:",
@@ -212,6 +220,12 @@ export const translations = {
     case3_client: "Web3 / Community",
     case3_result:
       "Визуальный язык для метавселенной: 3D-манекены, liquid chrome и модульные паттерны.",
+    case4_title: "CASE: SIGNAL FLOW",
+    case4_client: "Personal Brand / Crypto",
+    case4_result:
+      "Контент-система и визуальная подача для личного бренда с упором на доверие и ясность.",
+    case1_mtext:
+      "Проектный текст кейса можно расширить позже, когда раздел кейсов снова вернется в интерфейс.",
     case_view_btn: "Смотреть кейс →",
 
     pricing_title: "SMM ПЛАНЫ",
@@ -264,6 +278,7 @@ export const translations = {
     contact_form_submit: "Отправить заявку →",
     contact_form_submit_loading: "Отправляем…",
     contact_form_submit_success: "Мы с вами свяжемся",
+    contact_form_submit_error: "Что-то пошло не так. Попробуйте еще раз.",
 
     // Content Library
     content_library_title: "Кейсы",
@@ -303,6 +318,13 @@ export const translations = {
     results_case4_kpi1_label: "Telegram",
     results_case4_kpi2_label: "Доверие",
     results_case4_description: "Построили чёткую структуру контента и стиль коммуникации для личного бренда в крипто. Фокус на объяснениях, доверии и последовательности на всех платформах.",
+
+    // Case 5: Fitness Coach
+    results_case5_label: "Фитнес-коуч",
+    results_case5_period: "2 месяца сотрудничества",
+    results_case5_kpi1_label: "Просмотры",
+    results_case5_kpi2_label: "Reels",
+    results_case5_description: "Построили сильную контент-систему и визуальную идентичность для фитнес-коуча. Увеличили видимость профиля, вовлечённость аудитории и консистентность через Reels и структурированный контент.",
 
     contact_quick_title: "Быстрый контакт",
     contact_note_label: "Mode:",
@@ -345,6 +367,22 @@ export const translations = {
     services_smm_desc: "Krátke videá. Jednoduché natáčanie na telefón.",
     services_strategy_title: "DIZAJN & VIZUÁLY",
     services_strategy_desc: "Logá, vizitky, vizuály pre sociálne siete.",
+
+    case1_title: "CASE: Beauty Studio",
+    case1_client: "Beauty / Skincare",
+    case1_result: "From procedure to booking — through visual storytelling.",
+    case1_mtext:
+      "Case text can be expanded later if the legacy portfolio section returns.",
+    case2_title: "CASE: Price List Nail",
+    case2_client: "Nail / Price",
+    case2_result: "Premium nail services. Fair pricing.",
+    case3_title: "CASE: K.Beauty",
+    case3_client: "Beauty / Korean",
+    case3_result: "Soft textures. Real results. K-beauty mood.",
+    case4_title: "CASE: Nail Studio",
+    case4_client: "Beauty / Nail",
+    case4_result: "Minimal design for a modern nail studio.",
+    case_view_btn: "View case →",
 
     pricing_title: "SMM PLÁNY",
     pricing_subtitle: "Mesačné spravovanie sociálnych médií pre podnikanie.",
@@ -396,6 +434,7 @@ export const translations = {
     contact_form_submit: "Odoslať dopyt →",
     contact_form_submit_loading: "Odosielajú sa…",
     contact_form_submit_success: "Ozveme sa vám",
+    contact_form_submit_error: "Niečo sa pokazilo. Skúste to znova.",
 
     // Content Library
     content_library_title: "Príklady",
@@ -435,6 +474,13 @@ export const translations = {
     results_case4_kpi1_label: "Telegram",
     results_case4_kpi2_label: "Dôvera",
     results_case4_description: "Vytvorili sme jasnú štruktúru obsahu a komunikačný štýl pre osobnú značku v krypto. Zameranie na vysvetlenia, dôveru a konzistentnosť naprieč platformami.",
+
+    // Case 5: Fitness Coach
+    results_case5_label: "Fitness Coach",
+    results_case5_period: "2 mesiace spolupráce",
+    results_case5_kpi1_label: "Zobrazenia",
+    results_case5_kpi2_label: "Reels",
+    results_case5_description: "Vytvorili sme silný systém obsahu a vizuálnu identitu pre fitness coacha. Zvýšili sme viditeľnosť profilu, zapojenie publika a konzistentnosť cez Reels a štruktúrovaný obsah.",
 
     contact_quick_title: "Rýchly kontakt",
     contact_note_label: "Mode:",
@@ -476,6 +522,22 @@ export const translations = {
     services_smm_desc: "Kurzvideos. Einfache Smartphone-Aufnahmen.",
     services_strategy_title: "DESIGN & VISUALS",
     services_strategy_desc: "Logos, Visitenkarten, Visuals für Social Media.",
+
+    case1_title: "CASE: Beauty Studio",
+    case1_client: "Beauty / Skincare",
+    case1_result: "From procedure to booking — through visual storytelling.",
+    case1_mtext:
+      "Case text can be expanded later if the legacy portfolio section returns.",
+    case2_title: "CASE: Price List Nail",
+    case2_client: "Nail / Price",
+    case2_result: "Premium nail services. Fair pricing.",
+    case3_title: "CASE: K.Beauty",
+    case3_client: "Beauty / Korean",
+    case3_result: "Soft textures. Real results. K-beauty mood.",
+    case4_title: "CASE: Nail Studio",
+    case4_client: "Beauty / Nail",
+    case4_result: "Minimal design for a modern nail studio.",
+    case_view_btn: "View case →",
 
     pricing_title: "SMM PLÄNE",
     pricing_subtitle: "Monatliches Social-Media-Management für Unternehmen.",
@@ -527,6 +589,7 @@ export const translations = {
     contact_form_submit: "Anfrage senden →",
     contact_form_submit_loading: "Wird gesendet…",
     contact_form_submit_success: "Wir melden uns",
+    contact_form_submit_error: "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
 
     // Content Library
     content_library_title: "Content Library",
@@ -566,6 +629,13 @@ export const translations = {
     results_case4_kpi1_label: "Telegram",
     results_case4_kpi2_label: "Vertrauen",
     results_case4_description: "Bauten eine klare Content-Struktur und Kommunikationsstil für eine persönliche Marke in Krypto auf. Fokus auf Erklärungen, Vertrauen und Konsistenz über Plattformen hinweg.",
+
+    // Case 5: Fitness Coach
+    results_case5_label: "Fitness Coach",
+    results_case5_period: "2 Monate Zusammenarbeit",
+    results_case5_kpi1_label: "Aufrufe",
+    results_case5_kpi2_label: "Reels",
+    results_case5_description: "Aufgebaut wurde ein starkes Content-System und eine visuelle Identität für einen Fitness-Coach. Die Sichtbarkeit des Profils, das Engagement der Zielgruppe und die Konsistenz wurden durch Reels und strukturierten Content gesteigert.",
 
     contact_quick_title: "Schnellkontakt",
     contact_note_label: "Mode:",

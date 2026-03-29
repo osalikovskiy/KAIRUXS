@@ -1,38 +1,20 @@
-import React, { useState } from "react";
+import { Suspense, lazy, useState } from "react";
 import { translations, LANGS } from "./i18n";
 import { motion } from "framer-motion";
-import Pricing from "./components/Pricing";
-import Contact from "./components/Contact";
-import ContentLibrary from "./components/ContentLibrary";
-import Portfolio from "./components/Portfolio";
-import Services from "./components/Services";
 import Hero from "./components/Hero";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Principles from "./components/Principles";
-import ImpactCases from "./components/ImpactCases";
+const Services = lazy(() => import("./components/Services"));
+const Principles = lazy(() => import("./components/Principles"));
+const Pricing = lazy(() => import("./components/Pricing"));
+const ImpactCases = lazy(() => import("./components/ImpactCases"));
+const ContentLibrary = lazy(() => import("./components/ContentLibrary"));
+const Contact = lazy(() => import("./components/Contact"));
+const MotionDiv = motion.div;
 
-const sectionVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: "easeOut" },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-      delay: 0.08 * i,
-    },
-  }),
-};
+function SectionFallback() {
+  return <div className="section-fallback" aria-hidden="true" />;
+}
 
 const App = () => {
   const [lang, setLang] = useState("en");
@@ -56,7 +38,7 @@ const App = () => {
 
   return (
     <div className="brndz-app">
-      <motion.div
+      <MotionDiv
         className="brndz-app-inner"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -74,37 +56,39 @@ const App = () => {
           <Hero t={t} />
 
           {/* Services */}
-          <Services
-            t={t}
-            sectionVariants={sectionVariants}
-            cardVariants={cardVariants}
-          />
-
-          {/* Portfolio */}
+          <Suspense fallback={<SectionFallback />}>
+            <Services t={t} />
+          </Suspense>
 
           {/* Principles */}
-          <Principles />
+          <Suspense fallback={<SectionFallback />}>
+            <Principles />
+          </Suspense>
 
           {/* Pricing */}
-          <Pricing
-            t={t}
-            cardVariants={cardVariants}
-            sectionVariants={sectionVariants}
-          />
+          <Suspense fallback={<SectionFallback />}>
+            <Pricing t={t} />
+          </Suspense>
 
           {/* ImpactCases */}
-          <ImpactCases t={t} />
+          <Suspense fallback={<SectionFallback />}>
+            <ImpactCases t={t} />
+          </Suspense>
 
           {/* Content Library */}
-          <ContentLibrary t={t} />
+          <Suspense fallback={<SectionFallback />}>
+            <ContentLibrary t={t} />
+          </Suspense>
 
           {/* Contact */}
-          <Contact t={t} sectionVariants={sectionVariants} />
+          <Suspense fallback={<SectionFallback />}>
+            <Contact t={t} />
+          </Suspense>
         </main>
 
         {/* Footer */}
         <Footer t={t} />
-      </motion.div>
+      </MotionDiv>
     </div>
   );
 };
