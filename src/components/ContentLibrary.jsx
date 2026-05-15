@@ -4,17 +4,16 @@ import {
   useRef,
   useState,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { contentLibraryData } from "../data/contentLibrary";
 import DecorativeFlower from "./ui/DecorativeFlower";
 import SectionHeader from "./ui/SectionHeader";
+import { useReveal } from "../lib/reveal";
+import { lenis } from "../lib/lenis";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
-const MotionDiv = motion.div;
 
 function getPreviewSource(item) {
   if (item.mainImage || item.image) {
@@ -34,6 +33,7 @@ export default function ContentLibrary({ t }) {
   const closeButtonRef = useRef(null);
   const previousFocusRef = useRef(null);
   const dialogTitleId = useId();
+  const [sectionRef, sectionVisible] = useReveal({ threshold: 0.15 });
 
   const tabs = [
     { id: "visual", label: t("content_library_tab_visual") },
@@ -99,7 +99,7 @@ export default function ContentLibrary({ t }) {
     if (!selectedItem) return undefined;
 
     previousFocusRef.current = document.activeElement;
-    document.body.style.overflow = "hidden";
+    lenis.stop();
 
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
@@ -135,7 +135,7 @@ export default function ContentLibrary({ t }) {
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
+      lenis.start();
       previousFocusRef.current?.focus?.();
     };
   }, [selectedItem]);
@@ -158,7 +158,11 @@ export default function ContentLibrary({ t }) {
   };
 
   return (
-    <section className="content-library-section section-shell" id="content-library">
+    <section
+      ref={sectionRef}
+      className={`content-library-section section-shell reveal-section ${sectionVisible ? "is-visible" : ""}`}
+      id="content-library"
+    >
       <DecorativeFlower
         imageSrc="/flowers/flower3.PNG"
         sizeClass="flower-large"
@@ -167,28 +171,15 @@ export default function ContentLibrary({ t }) {
       />
 
       <div className="content-library-inner">
-        <MotionDiv
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7 }}
-        >
-          <SectionHeader
-            className="content-library-header"
-            title={t("content_library_title")}
-            description={t("content_library_subtitle")}
-            titleClassName="content-library-title"
-            descriptionClassName="content-library-subtitle"
-          />
-        </MotionDiv>
+        <SectionHeader
+          className="content-library-header"
+          title={t("content_library_title")}
+          description={t("content_library_subtitle")}
+          titleClassName="content-library-title"
+          descriptionClassName="content-library-subtitle"
+        />
 
-        <MotionDiv
-          className="content-library-tabs"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-        >
+        <div className="content-library-tabs">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -197,211 +188,179 @@ export default function ContentLibrary({ t }) {
               onClick={() => setActiveTab(tab.id)}
             >
               {tab.label}
-              {activeTab === tab.id && (
-                <MotionDiv
-                  className="tab-indicator"
-                  layoutId="activeTab"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
             </button>
           ))}
-        </MotionDiv>
+        </div>
 
-        <AnimatePresence mode="wait">
-          <MotionDiv
-            key={activeTab}
-            className="content-library-swiper-container"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
+        <div key={activeTab} className="content-library-swiper-container">
+          <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={20}
+            slidesPerView={activeTab === "visual" ? 1.5 : 2}
+            navigation
+            pagination={{ clickable: true }}
+            breakpoints={{
+              640: {
+                slidesPerView: activeTab === "visual" ? 2 : 3,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: activeTab === "visual" ? 2.8 : 5,
+                spaceBetween: 24,
+              },
+            }}
+            className={`content-swiper ${
+              activeTab === "visual" ? "visual-swiper" : ""
+            }`}
           >
-            <Swiper
-              modules={[Navigation, Pagination]}
-              spaceBetween={20}
-              slidesPerView={activeTab === "visual" ? 1.5 : 2}
-              navigation
-              pagination={{ clickable: true }}
-              breakpoints={{
-                640: {
-                  slidesPerView: activeTab === "visual" ? 2 : 3,
-                  spaceBetween: 20,
-                },
-                1024: {
-                  slidesPerView: activeTab === "visual" ? 2.8 : 5,
-                  spaceBetween: 24,
-                },
-              }}
-              className={`content-swiper ${
-                activeTab === "visual" ? "visual-swiper" : ""
-              }`}
-            >
-              {currentContent.map((item, index) => (
-                <SwiperSlide key={item.id}>
-                  <button
-                    type="button"
-                    className={`content-card ${
-                      activeTab === "visual" ? "visual" : "story"
-                    }`}
-                    onClick={() => openModal(item)}
-                    aria-haspopup="dialog"
-                    aria-label={`Open ${item.category}`}
-                  >
-                    <div className="content-card-inner">
-                      <div className="content-card-media">
-                        <img
-                          src={getPreviewSource(item)}
-                          alt={item.category}
-                          loading={index === 0 ? "eager" : "lazy"}
-                          fetchPriority={index === 0 ? "high" : "auto"}
-                          decoding="async"
-                        />
-                      </div>
-                      <div className="content-card-overlay">
-                        <span className="content-card-category">{item.category}</span>
-                      </div>
+            {currentContent.map((item, index) => (
+              <SwiperSlide key={item.id}>
+                <button
+                  type="button"
+                  className={`content-card ${
+                    activeTab === "visual" ? "visual" : "story"
+                  }`}
+                  onClick={() => openModal(item)}
+                  aria-haspopup="dialog"
+                  aria-label={`Open ${item.category}`}
+                >
+                  <div className="content-card-inner">
+                    <div className="content-card-media">
+                      <img
+                        src={getPreviewSource(item)}
+                        alt={item.category}
+                        loading={index === 0 ? "eager" : "lazy"}
+                        fetchPriority={index === 0 ? "high" : "auto"}
+                        decoding="async"
+                      />
                     </div>
-                  </button>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </MotionDiv>
-        </AnimatePresence>
+                    <div className="content-card-overlay">
+                      <span className="content-card-category">{item.category}</span>
+                    </div>
+                  </div>
+                </button>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       </div>
 
-      <AnimatePresence>
-        {isLoading && (
-          <MotionDiv
-            className="content-modal content-modal-loading"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+      {isLoading && (
+        <div className="content-modal content-modal-loading">
+          <div className="content-loading-spinner" role="status" aria-live="polite" />
+        </div>
+      )}
+
+      {selectedItem && !isLoading && (
+        <div
+          className="content-modal"
+          onClick={closeModal}
+        >
+          <DecorativeFlower
+            imageSrc="/flowers/flower1.PNG"
+            className="modal-flower"
+            style={{ top: "8%", left: "5%", width: "280px", height: "280px" }}
+          />
+          <DecorativeFlower
+            imageSrc="/flowers/flower2.PNG"
+            className="modal-flower"
+            style={{ top: "10%", right: "8%", width: "520px", height: "520px" }}
+          />
+          <DecorativeFlower
+            imageSrc="/flowers/flower3.PNG"
+            className="modal-flower"
+            style={{ bottom: "5%", left: "10%", width: "300px", height: "300px" }}
+          />
+
+          <div className="modal-backdrop-text">KAIRUXS NOT JUST SMM</div>
+
+          <div
+            ref={modalRef}
+            className="content-modal-inner"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={dialogTitleId}
+            onClick={(event) => event.stopPropagation()}
           >
-            <div className="content-loading-spinner" role="status" aria-live="polite" />
-          </MotionDiv>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {selectedItem && !isLoading && (
-          <MotionDiv
-            className="content-modal"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={closeModal}
-          >
-            <DecorativeFlower
-              imageSrc="/flowers/flower1.PNG"
-              className="modal-flower"
-              style={{ top: "8%", left: "5%", width: "280px", height: "280px" }}
-            />
-            <DecorativeFlower
-              imageSrc="/flowers/flower2.PNG"
-              className="modal-flower"
-              style={{ top: "10%", right: "8%", width: "520px", height: "520px" }}
-            />
-            <DecorativeFlower
-              imageSrc="/flowers/flower3.PNG"
-              className="modal-flower"
-              style={{ bottom: "5%", left: "10%", width: "300px", height: "300px" }}
-            />
-
-            <div className="modal-backdrop-text">KAIRUXS NOT JUST SMM</div>
-
-            <MotionDiv
-              ref={modalRef}
-              className="content-modal-inner"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby={dialogTitleId}
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25 }}
-              onClick={(event) => event.stopPropagation()}
+            <button
+              ref={closeButtonRef}
+              type="button"
+              className="content-modal-close"
+              onClick={closeModal}
+              aria-label="Close content preview"
             >
-              <button
-                ref={closeButtonRef}
-                type="button"
-                className="content-modal-close"
-                onClick={closeModal}
-                aria-label="Close content preview"
-              >
-                ✕
-              </button>
+              ✕
+            </button>
 
-              <div className="content-modal-media">
-                {selectedItem.media?.length ? (
-                  <Swiper
-                    modules={[Navigation, Pagination]}
-                    spaceBetween={20}
-                    slidesPerView={1}
-                    navigation
-                    pagination={{ clickable: true }}
-                    className="content-modal-swiper"
-                    onSlideChange={handleSlideChange}
-                    onSwiper={() => {
-                      videoRefs.current = [];
-                      setCurrentSlide(0);
-                    }}
-                  >
-                    {selectedItem.media.map((mediaItem, index) => (
-                      <SwiperSlide key={index}>
-                        {mediaItem.type === "video" ? (
-                          <video
-                            ref={(element) => {
-                              if (element) {
-                                videoRefs.current[index] = element;
-                              }
-                            }}
-                            src={mediaItem.src}
-                            poster={mediaItem.poster || selectedItem.mainImage}
-                            className="content-modal-video"
-                            loop
-                            muted
-                            playsInline
-                            controls
-                            preload="metadata"
-                            disablePictureInPicture
-                            disableRemotePlayback
-                          />
-                        ) : (
-                          <img
-                            src={mediaItem.src}
-                            alt={`${selectedItem.category} ${index + 1}`}
-                            className="content-modal-image"
-                            loading="lazy"
-                          />
-                        )}
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-                ) : (
-                  <img
-                    src={selectedItem.image || selectedItem.mainImage}
-                    alt={selectedItem.category}
-                    className="content-modal-image"
-                  />
-                )}
-              </div>
+            <div className="content-modal-media">
+              {selectedItem.media?.length ? (
+                <Swiper
+                  modules={[Navigation, Pagination]}
+                  spaceBetween={20}
+                  slidesPerView={1}
+                  navigation
+                  pagination={{ clickable: true }}
+                  className="content-modal-swiper"
+                  onSlideChange={handleSlideChange}
+                  onSwiper={() => {
+                    videoRefs.current = [];
+                    setCurrentSlide(0);
+                  }}
+                >
+                  {selectedItem.media.map((mediaItem, index) => (
+                    <SwiperSlide key={index}>
+                      {mediaItem.type === "video" ? (
+                        <video
+                          ref={(element) => {
+                            if (element) {
+                              videoRefs.current[index] = element;
+                            }
+                          }}
+                          src={mediaItem.src}
+                          poster={mediaItem.poster || selectedItem.mainImage}
+                          className="content-modal-video"
+                          loop
+                          muted
+                          playsInline
+                          controls
+                          preload="metadata"
+                          disablePictureInPicture
+                          disableRemotePlayback
+                        />
+                      ) : (
+                        <img
+                          src={mediaItem.src}
+                          alt={`${selectedItem.category} ${index + 1}`}
+                          className="content-modal-image"
+                          loading="lazy"
+                        />
+                      )}
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              ) : (
+                <img
+                  src={selectedItem.image || selectedItem.mainImage}
+                  alt={selectedItem.category}
+                  className="content-modal-image"
+                />
+              )}
+            </div>
 
-              <div className="content-modal-info">
-                <h3 id={dialogTitleId} className="content-modal-title">
-                  {selectedItem.category}
-                </h3>
-                {selectedItem.media?.length ? (
-                  <p className="content-modal-counter">
-                    {selectedItem.media.length} media item
-                    {selectedItem.media.length > 1 ? "s" : ""}
-                  </p>
-                ) : null}
-              </div>
-            </MotionDiv>
-          </MotionDiv>
-        )}
-      </AnimatePresence>
+            <div className="content-modal-info">
+              <h3 id={dialogTitleId} className="content-modal-title">
+                {selectedItem.category}
+              </h3>
+              {selectedItem.media?.length ? (
+                <p className="content-modal-counter">
+                  {selectedItem.media.length} media item
+                  {selectedItem.media.length > 1 ? "s" : ""}
+                </p>
+              ) : null}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

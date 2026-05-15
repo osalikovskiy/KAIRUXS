@@ -1,14 +1,30 @@
 /* ====== HERO ====== */
 
-.brndz-hero {
+@keyframes heroEnter {
+  from { opacity: 0; transform: translateY(40px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes photoFrameEnter {
+  from { opacity: 0; transform: scale(0.9) rotateY(-15deg); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes bubbleEnter {
+  from { opacity: 0; transform: scale(0); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.kairuxs-hero {
   position: relative;
   min-height: 100vh;
   padding: 150px 6vw 100px;
   overflow: hidden;
+  animation: heroEnter 0.9s ease-out both;
 }
 
 /* Красивый градиентный фон для Hero */
-.brndz-hero::before {
+.kairuxs-hero::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -67,16 +83,23 @@
 
 .hero-kicker {
   display: inline-flex;
-  width: max-content;
-  padding: 6px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(233, 166, 181, 0.4);
-  background: rgba(255, 255, 255, 0.8);
-  color: var(--brndz-pink);
-  font-size: 0.7rem;
-  letter-spacing: 0.22em;
+  align-items: center;
+  gap: 12px;
+  color: var(--kairuxs-pink-darker);
+  font-size: 0.62rem;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  opacity: 0.85;
+}
+
+.hero-kicker::before {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(to right, var(--kairuxs-pink-darker), var(--kairuxs-pink));
+  flex-shrink: 0;
 }
 
 .hero-text h1 {
@@ -86,7 +109,7 @@
   font-size: clamp(2.2rem, 5vw, 4rem);
   line-height: 1.12;
   margin: 0 0 20px;
-  color: var(--brndz-text-primary);
+  color: var(--kairuxs-text-primary);
   max-width: 650px;
   text-wrap: balance;
 }
@@ -105,11 +128,11 @@
   max-width: 520px;
   margin: 0;
   text-wrap: balance;
-  color: var(--brndz-text-secondary);
+  color: var(--kairuxs-text-secondary);
 }
 
 .hero-sub-strong {
-  color: var(--brndz-pink);
+  color: var(--kairuxs-pink);
   font-weight: 600;
 }
 
@@ -179,8 +202,8 @@
   color: #ffffff;
   background: linear-gradient(
     135deg,
-    var(--brndz-pink) 0%,
-    var(--brndz-pink-darker) 100%
+    var(--kairuxs-pink) 0%,
+    var(--kairuxs-pink-darker) 100%
   );
   box-shadow: 0 4px 20px rgba(233, 166, 181, 0.4);
 }
@@ -214,7 +237,7 @@
 
 .btn-secondary {
   background: rgba(255, 255, 255, 0.7);
-  color: var(--brndz-text-primary);
+  color: var(--kairuxs-text-primary);
 }
 
 .btn-secondary:hover {
@@ -223,7 +246,7 @@
 
 .btn-outline {
   background: transparent;
-  color: var(--brndz-text-primary);
+  color: var(--kairuxs-text-primary);
   border: 1px solid rgba(233, 166, 181, 0.6);
 }
 
@@ -251,6 +274,7 @@
   width: 460px;
   height: 580px;
   transform-style: preserve-3d;
+  animation: photoFrameEnter 1s ease-out 0.2s both;
 }
 
 .hero-photo-inner {
@@ -264,11 +288,9 @@
     rgba(246, 230, 235, 0.9) 100%
   );
   border: 2px solid rgba(233, 166, 181, 0.3);
-  box-shadow: 
-    0 40px 100px rgba(233, 166, 181, 0.3),
-    0 20px 60px rgba(233, 166, 181, 0.2),
-    inset 0 2px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -2px 20px rgba(233, 166, 181, 0.1);
+  box-shadow:
+    0 24px 60px rgba(233, 166, 181, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
   overflow: hidden;
   animation: photoFloat 6s ease-in-out infinite;
 }
@@ -336,32 +358,7 @@
 
 /* Decorative Ring */
 .hero-photo-ring {
-  position: absolute;
-  inset: -20px;
-  border-radius: 40px;
-  border: 2px solid rgba(233, 166, 181, 0.2);
-  pointer-events: none;
-  animation: ringPulse 4s ease-in-out infinite;
-}
-
-.hero-photo-ring::before,
-.hero-photo-ring::after {
-  content: '';
-  position: absolute;
-  border-radius: 40px;
-  pointer-events: none;
-}
-
-.hero-photo-ring::before {
-  inset: -15px;
-  border: 1px solid rgba(233, 166, 181, 0.1);
-  animation: ringPulse 5s ease-in-out infinite reverse;
-}
-
-.hero-photo-ring::after {
-  inset: -30px;
-  border: 1px solid rgba(233, 166, 181, 0.05);
-  animation: ringPulse 6s ease-in-out infinite;
+  display: none;
 }
 
 /* Floating Social Bubbles */
@@ -369,93 +366,76 @@
   position: absolute;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 18px;
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(233, 166, 181, 0.25);
-  border-radius: 50px;
-  box-shadow: 
-    0 12px 40px rgba(233, 166, 181, 0.25),
-    0 4px 12px rgba(233, 166, 181, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 1);
-  animation: bubbleFloat 3s ease-in-out infinite;
+  gap: 6px;
+  padding: 12px 22px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(233, 166, 181, 0.18);
+  border-radius: 999px;
+  box-shadow: 0 4px 18px rgba(233, 166, 181, 0.14);
+  animation-name: bubbleEnter, bubbleFloat;
+  animation-duration: 0.6s, 3s;
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1), ease-in-out;
+  animation-delay: var(--bubble-delay, 0.3s), calc(var(--bubble-delay, 0.3s) + 0.6s);
+  animation-fill-mode: both, none;
+  animation-iteration-count: 1, infinite;
   cursor: default;
-  transition: box-shadow 0.6s ease;
   z-index: 10;
   white-space: nowrap;
 }
 
 .hero-social-bubble:hover {
-  box-shadow: 
-    0 20px 60px rgba(233, 166, 181, 0.35),
-    0 8px 20px rgba(233, 166, 181, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 1);
+  box-shadow: 0 8px 28px rgba(233, 166, 181, 0.22);
 }
 
 /* Specific positioning for each bubble */
 .hero-social-bubble.like {
   top: 10%;
   left: -10%;
-  animation-delay: 0s;
 }
 
 .hero-social-bubble.comment {
   top: 8%;
   right: -8%;
-  animation-delay: 0.5s;
 }
 
 .hero-social-bubble.story {
   bottom: 18%;
   left: -12%;
-  animation-delay: 1s;
 }
 
 .hero-social-bubble.follower {
   bottom: 15%;
   right: -10%;
-  animation-delay: 1.5s;
 }
 
 .hero-social-bubble.fire {
   top: 45%;
   left: -15%;
-  animation-delay: 2s;
 }
 
 .hero-social-bubble.save {
   top: 50%;
   right: -12%;
-  animation-delay: 2.5s;
 }
 
 .bubble-icon {
-  font-size: 20px;
+  font-size: 14px;
   line-height: 1;
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(233, 166, 181, 0.12), rgba(212, 139, 158, 0.08));
-  border-radius: 50%;
-  border: 1.5px solid rgba(233, 166, 181, 0.25);
   flex-shrink: 0;
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.hero-social-bubble:hover .bubble-icon {
-  background: linear-gradient(135deg, rgba(233, 166, 181, 0.2), rgba(212, 139, 158, 0.15));
-  border-color: rgba(233, 166, 181, 0.4);
-  transform: scale(1.05);
+  color: var(--kairuxs-pink-darker);
+  opacity: 0.8;
 }
 
 .bubble-text {
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 600;
-  color: var(--brndz-text-primary);
   background: linear-gradient(135deg, #E9A6B5, #D48B9E);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -463,12 +443,8 @@
 }
 
 @keyframes photoFloat {
-  0%, 100% {
-    transform: translateY(0px) rotateY(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotateY(2deg);
-  }
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
 }
 
 /* Decorative Flowers */
@@ -535,5 +511,15 @@
   }
   50% {
     transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kairuxs-hero,
+  .hero-photo-frame,
+  .hero-social-bubble {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
 }

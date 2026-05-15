@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import {
   Heart,
   Flame,
@@ -7,11 +6,6 @@ import {
   Users,
   Camera,
 } from "lucide-react";
-import {
-  createHeroBubbleMotion,
-  heroPhotoFrameMotion,
-  heroSectionVariants,
-} from "../lib/animations";
 import { scrollToSection } from "../lib/navigation";
 
 const socialElements = [
@@ -24,17 +18,8 @@ const socialElements = [
 ];
 
 export default function Hero({ t }) {
-  const MotionSection = motion.section;
-  const MotionDiv = motion.div;
-
   return (
-    <MotionSection
-      className="brndz-hero"
-      id="hero"
-      variants={heroSectionVariants}
-      initial="hidden"
-      animate="visible"
-    >
+    <section className="kairuxs-hero" id="hero">
       <div className="hero-overlay" />
       <div className="hero-inner">
         <div className="hero-text">
@@ -57,39 +42,35 @@ export default function Hero({ t }) {
           </div>
         </div>
 
-        {/* Premium Visual with Social Elements */}
         <div className="hero-visual">
-          {/* Main Photo Frame */}
-          <MotionDiv className="hero-photo-frame" {...heroPhotoFrameMotion}>
+          <div className="hero-photo-frame">
             <div className="hero-photo-inner">
               <div className="hero-photo-gradient"></div>
               <div className="hero-photo-placeholder">
                 <img src="/flowers/flower1.PNG" alt="" />
               </div>
             </div>
-
             <div className="hero-photo-ring"></div>
-          </MotionDiv>
+          </div>
 
-          {/* Floating Social Elements */}
-          {socialElements.map((el, i) => {
+          {socialElements.map((el) => {
             const Icon = el.Icon;
             return (
-              <MotionDiv
-                key={i}
+              <div
+                key={el.type}
                 className={`hero-social-bubble ${el.type}`}
                 aria-hidden="true"
-                {...createHeroBubbleMotion(el.delay)}
+                style={{ "--bubble-delay": `${el.delay}s` }}
               >
                 <span className="bubble-icon" aria-hidden="true">
                   <Icon size={18} />
                 </span>
                 <span className="bubble-text">{el.text}</span>
-              </MotionDiv>
+              </div>
             );
           })}
         </div>
       </div>
-    </MotionSection>
+    </section>
   );
 }

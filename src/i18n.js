@@ -37,15 +37,13 @@ export const translations = {
 
     // Services
     services_brand_title: "UGC & CREATOR",
-    services_brand_desc: "UGC content for brands. Filmed on phone. On-camera presence.",
+    services_brand_desc: "Authentic mobile content built for brand trust. On-camera presence that feels native — not staged.",
     services_digital_title: "SMM",
-    services_digital_desc:
-      "Instagram management. Strategy & content planning.",
+    services_digital_desc: "End-to-end Instagram management. Strategy, content planning, and consistent execution aligned with your brand.",
     services_smm_title: "VIDEO CONTENT",
-    services_smm_desc: "Short-form videos. Simple phone filming.",
+    services_smm_desc: "Short-form video for Reels and Stories. Optimized for reach, retention, and platform algorithms.",
     services_strategy_title: "DESIGN & VISUALS",
-    services_strategy_desc:
-      "Logos, business cards, social visuals.",
+    services_strategy_desc: "Visual identity for social media — logos, brand kits, and feed aesthetics that communicate before a word is read.",
 
 
     // Cases
@@ -99,10 +97,13 @@ export const translations = {
     pricing_pro_feat_5: "Copywriting",
     pricing_pro_feat_6: "3+ shoots per month",
 
+    pricing_badge: "BEST VALUE",
     pricing_btn: "Get started",
 
     pricing_additional_title: "ADDITIONAL SUPPORT",
     pricing_additional_desc: "I also help with visual tasks, simple design and video edits when needed.\n\nFor specific requests or one-off tasks — feel free to reach out.",
+    pricing_additional_desc_short: "Need something outside the plans?",
+    pricing_additional_desc_full: "Visual tasks, one-off shoots, design edits — anything that doesn't fit a package. Reach out and we'll figure it out.",
     pricing_additional_btn: "Discuss your project →",
 
     // Contact
@@ -169,8 +170,26 @@ export const translations = {
     contact_note_label: "Mode:",
     contact_note_value: "project-based / retainer / consulting",
 
+    // About
+    about_kicker: "About me",
+    about_name: "KIRA",
+    about_role: "SMM Specialist · Content Creator · UGC",
+    about_quote: "I don't just run accounts. I build brands people actually stop and look at.",
+    about_bio: "From Kyiv. Since 2020 I've built social presence for brands across UA, SK and DE.",
+    about_stat1_value: "3+",
+    about_stat1_label: "Years",
+    about_stat2_value: "7",
+    about_stat2_label: "Industries",
+    about_stat3_value: "4",
+    about_stat3_label: "Countries",
+    about_cta: "Let's work together →",
+
     // Footer
     footer_right: "FUTURISTIC LUXE / AESTHETIC",
+    footer_cta_kicker: "Ready to grow?",
+    footer_cta_line1: "LET'S CREATE",
+    footer_cta_line2: "SOMETHING REAL",
+    footer_cta_btn: "Start a project →",
   },
 
   // Русский
@@ -199,13 +218,13 @@ export const translations = {
 
 
     services_brand_title: "UGC & CREATOR",
-    services_brand_desc: "UGC-контент для брендов. Съёмка на телефон. Работа в кадре.",
+    services_brand_desc: "Аутентичный мобильный контент для укрепления доверия к бренду. Работа в кадре — нативно, без постановки.",
     services_digital_title: "SMM",
-    services_digital_desc: "Ведение Instagram. Стратегия и контент-планирование.",
+    services_digital_desc: "Полное ведение Instagram. Стратегия, контент-план и системное исполнение в рамках вашего бренда.",
     services_smm_title: "ВИДЕОКОНТЕНТ",
-    services_smm_desc: "Короткие видео. Простая съёмка на телефон.",
+    services_smm_desc: "Короткие видео для Reels и Stories. Оптимизировано под охваты, удержание и алгоритмы платформ.",
     services_strategy_title: "ДИЗАЙН И ВИЗУАЛ",
-    services_strategy_desc: "Логотипы, визитки, визуалы для соцсетей.",
+    services_strategy_desc: "Визуальная идентичность для соцсетей — логотипы, брендкиты и эстетика ленты, которая говорит раньше слов.",
 
 
     case1_title: "CASE: LUXE VOID",
@@ -261,10 +280,13 @@ export const translations = {
     pricing_pro_feat_5: "Копирайтинг",
     pricing_pro_feat_6: "3+ съёмки в месяц",
 
+    pricing_badge: "ЛУЧШИЙ ВЫБОР",
     pricing_btn: "Начать",
 
     pricing_additional_title: "ДОПОЛНИТЕЛЬНАЯ ПОДДЕРЖКА",
     pricing_additional_desc: "Я также помогаю с визуальными задачами, простым дизайном и монтажом видео при необходимости.\n\nДля конкретных запросов или разовых задач — свяжитесь со мной.",
+    pricing_additional_desc_short: "Нужно что-то вне планов?",
+    pricing_additional_desc_full: "Визуальные задачи, разовые съёмки, правки дизайна — всё, что не входит в пакет. Напишите, и разберёмся.",
     pricing_additional_btn: "Обсудить проект →",
 
     contact_start_title: "Начать проект",
@@ -330,7 +352,25 @@ export const translations = {
     contact_note_label: "Mode:",
     contact_note_value: "project-based / retainer / consulting",
 
+    // About
+    about_kicker: "Обо мне",
+    about_name: "KIRA",
+    about_role: "SMM-специалист · Контент-криэйтор · UGC",
+    about_quote: "Я не просто веду аккаунты. Я строю бренды, на которых люди останавливаются в ленте.",
+    about_bio: "Из Киева. С 2020 года развиваю присутствие брендов в соцсетях по всей UA, SK и DE.",
+    about_stat1_value: "3+",
+    about_stat1_label: "Лет опыта",
+    about_stat2_value: "7",
+    about_stat2_label: "Отраслей",
+    about_stat3_value: "4",
+    about_stat3_label: "Страны",
+    about_cta: "Начать работу →",
+
     footer_right: "FUTURISTIC LUXE / AESTHETIC",
+    footer_cta_kicker: "Готовы к росту?",
+    footer_cta_line1: "ДАВАЙТЕ СОЗДАДИМ",
+    footer_cta_line2: "ЧТО-ТО НАСТОЯЩЕЕ",
+    footer_cta_btn: "Начать проект →",
   },
 
   // Словацкий (черновой — лучше дать носителю вычитать позже)
@@ -360,13 +400,13 @@ export const translations = {
 
 
     services_brand_title: "UGC & CREATOR",
-    services_brand_desc: "UGC obsah pre značky. Natáčané na telefón. Práca pred kamerou.",
+    services_brand_desc: "Autentický mobilný obsah pre budovanie dôvery k značke. Prirodzená práca pred kamerou — bez inscenovania.",
     services_digital_title: "SMM",
-    services_digital_desc: "Správa Instagramu. Stratégia a plánovanie obsahu.",
+    services_digital_desc: "Kompletná správa Instagramu. Stratégia, plán obsahu a konzistentná realizácia v duchu vašej značky.",
     services_smm_title: "VIDEO OBSAH",
-    services_smm_desc: "Krátke videá. Jednoduché natáčanie na telefón.",
+    services_smm_desc: "Krátke videá pre Reels a Stories. Optimalizované pre dosah, udržanie pozornosti a algoritmy platforiem.",
     services_strategy_title: "DIZAJN & VIZUÁLY",
-    services_strategy_desc: "Logá, vizitky, vizuály pre sociálne siete.",
+    services_strategy_desc: "Vizuálna identita pre sociálne siete — logá, brand kity a estetika feedu, ktorá hovorí skôr než slová.",
 
     case1_title: "CASE: Beauty Studio",
     case1_client: "Beauty / Skincare",
@@ -417,10 +457,13 @@ export const translations = {
     pricing_pro_feat_5: "Copywriting",
     pricing_pro_feat_6: "3+ natáčanie mesačne",
 
+    pricing_badge: "NAJLEPŠIA VOĽBA",
     pricing_btn: "Začať",
 
     pricing_additional_title: "DODATOČNÁ PODPORA",
     pricing_additional_desc: "Pomáham aj s vizuálnymi úlohami, jednoduchým dizajnom a strihom videa pri potrebe.\n\nPre konkrétne požiadavky alebo jednorazové úlohy — neváhajte ma kontaktovať.",
+    pricing_additional_desc_short: "Potrebujete niečo mimo plánov?",
+    pricing_additional_desc_full: "Vizuálne úlohy, jednorazové natáčania, úpravy dizajnu — čokoľvek, čo nezapadá do balíka. Napíšte a vyriešime to.",
     pricing_additional_btn: "Prediskutovať projekt →",
 
     contact_start_title: "Začať projekt",
@@ -486,7 +529,25 @@ export const translations = {
     contact_note_label: "Mode:",
     contact_note_value: "project-based / retainer / consulting",
 
+    // About
+    about_kicker: "O mne",
+    about_name: "KIRA",
+    about_role: "SMM špecialistka · Tvorkyňa obsahu · UGC",
+    about_quote: "Nespravujem len účty. Budujem značky, pri ktorých ľudia zastavia palec.",
+    about_bio: "Z Kyjeva. Od roku 2020 budуjem prítomnosť značiek na sociálnych sieťach v UA, SK a DE.",
+    about_stat1_value: "3+",
+    about_stat1_label: "Roky",
+    about_stat2_value: "7",
+    about_stat2_label: "Odvetvia",
+    about_stat3_value: "4",
+    about_stat3_label: "Krajiny",
+    about_cta: "Začnime spolupracovať →",
+
     footer_right: "FUTURISTIC LUXE / AESTHETIC",
+    footer_cta_kicker: "Pripravení rásť?",
+    footer_cta_line1: "POĎME VYTVORIŤ",
+    footer_cta_line2: "NIEČO SKUTOČNÉ",
+    footer_cta_btn: "Začať projekt →",
   },
 
   // Немецкий (тоже как черновик)
@@ -515,13 +576,13 @@ export const translations = {
 
 
     services_brand_title: "UGC & CREATOR",
-    services_brand_desc: "UGC-Content für Marken. Mit dem Smartphone gefilmt. Präsenz vor der Kamera.",
+    services_brand_desc: "Authentischer Mobile-Content für nachhaltiges Markenvertrauen. Natürliche Präsenz vor der Kamera — ohne Inszenierung.",
     services_digital_title: "SMM",
-    services_digital_desc: "Instagram-Management. Strategie und Content-Planung.",
+    services_digital_desc: "Vollständiges Instagram-Management. Strategie, Content-Plan und konsequente Umsetzung im Sinne Ihrer Marke.",
     services_smm_title: "VIDEO CONTENT",
-    services_smm_desc: "Kurzvideos. Einfache Smartphone-Aufnahmen.",
+    services_smm_desc: "Kurzvideos für Reels und Stories. Optimiert für Reichweite, Retention und Plattform-Algorithmen.",
     services_strategy_title: "DESIGN & VISUALS",
-    services_strategy_desc: "Logos, Visitenkarten, Visuals für Social Media.",
+    services_strategy_desc: "Visuelle Identität für Social Media — Logos, Brand Kits und Feed-Ästhetik, die kommuniziert bevor ein Wort gelesen wird.",
 
     case1_title: "CASE: Beauty Studio",
     case1_client: "Beauty / Skincare",
@@ -572,10 +633,13 @@ export const translations = {
     pricing_pro_feat_5: "Copywriting",
     pricing_pro_feat_6: "3+ Shootings pro Monat",
 
+    pricing_badge: "BESTE WAHL",
     pricing_btn: "Loslegen",
 
     pricing_additional_title: "ZUSÄTZLICHE UNTERSTÜTZUNG",
     pricing_additional_desc: "Ich helfe auch bei visuellen Aufgaben, einfachem Design und Videobearbeitung bei Bedarf.\n\nFür spezielle Anfragen oder einmalige Aufgaben — kontaktieren Sie mich gerne.",
+    pricing_additional_desc_short: "Brauchen Sie etwas außerhalb der Pakete?",
+    pricing_additional_desc_full: "Visuelle Aufgaben, einmalige Shootings, Design-Korrekturen — alles, was nicht in ein Paket passt. Schreiben Sie uns.",
     pricing_additional_btn: "Projekt besprechen →",
 
     contact_start_title: "Projekt starten",
@@ -641,6 +705,24 @@ export const translations = {
     contact_note_label: "Mode:",
     contact_note_value: "project-based / retainer / consulting",
 
+    // About
+    about_kicker: "Über mich",
+    about_name: "KIRA",
+    about_role: "SMM-Spezialistin · Content Creatorin · UGC",
+    about_quote: "Ich verwalte nicht nur Accounts. Ich baue Marken, bei denen man wirklich innehält.",
+    about_bio: "Aus Kyiv. Seit 2020 baue ich die Social-Media-Präsenz von Marken in UA, SK und DE auf.",
+    about_stat1_value: "3+",
+    about_stat1_label: "Jahre",
+    about_stat2_value: "7",
+    about_stat2_label: "Branchen",
+    about_stat3_value: "4",
+    about_stat3_label: "Länder",
+    about_cta: "Zusammenarbeiten →",
+
     footer_right: "FUTURISTIC LUXE / AESTHETIC",
+    footer_cta_kicker: "Bereit zu wachsen?",
+    footer_cta_line1: "LASS UNS ETWAS",
+    footer_cta_line2: "ECHTES SCHAFFEN",
+    footer_cta_btn: "Projekt starten →",
   },
 };

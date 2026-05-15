@@ -1,48 +1,33 @@
-import { motion } from "framer-motion";
-import {
-  sectionRevealProps,
-  sharedSectionVariants,
-} from "../../lib/animations";
-
-const MotionSection = motion.section;
+import { useReveal } from "../../lib/reveal";
 
 function joinClassNames(values) {
   return values.filter(Boolean).join(" ");
 }
 
-export function RevealSection({
-  children,
-  className,
-  revealProps = sectionRevealProps,
-  ...props
-}) {
+export function RevealSection({ children, className, threshold = 0.2, ...props }) {
+  const [ref, visible] = useReveal({ threshold });
+
   return (
-    <MotionSection
-      className={joinClassNames(["brndz-section", "section-shell", className])}
-      {...revealProps}
+    <section
+      ref={ref}
+      className={joinClassNames([
+        "kairuxs-section",
+        "section-shell",
+        "reveal-section",
+        visible && "is-visible",
+        className,
+      ])}
       {...props}
     >
       {children}
-    </MotionSection>
+    </section>
   );
 }
 
-export function VariantSection({
-  children,
-  className,
-  viewport = { once: true, amount: 0.25 },
-  ...props
-}) {
+export function VariantSection({ children, className, ...props }) {
   return (
-    <MotionSection
-      className={joinClassNames(["brndz-section", "section-shell", className])}
-      variants={sharedSectionVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewport}
-      {...props}
-    >
+    <RevealSection className={className} {...props}>
       {children}
-    </MotionSection>
+    </RevealSection>
   );
 }

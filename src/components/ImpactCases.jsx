@@ -1,9 +1,21 @@
-import { motion } from "framer-motion";
 import DecorativeFlower from "./ui/DecorativeFlower";
 import SectionHeader from "./ui/SectionHeader";
 import { VariantSection } from "./ui/AnimatedSection";
-import { sharedCardVariants } from "../lib/animations";
-const MotionArticle = motion.article;
+import CountUpValue from "./ui/CountUpValue";
+import { useReveal } from "../lib/reveal";
+
+function RevealRow({ children, className, style }) {
+  const [ref, visible] = useReveal({ threshold: 0.12 });
+  return (
+    <article
+      ref={ref}
+      className={`impact-jrow ${className || ""} ${visible ? "row-visible" : ""}`}
+      style={style}
+    >
+      {children}
+    </article>
+  );
+}
 
 export default function ImpactCases({ t }) {
   const impactCases = [
@@ -26,6 +38,7 @@ export default function ImpactCases({ t }) {
       kpi2Label: t("results_case2_kpi2_label"),
       kpi2Value: "+89%",
       description: t("results_case2_description"),
+      metaFlip: true,
     },
     {
       id: "perfume-bar",
@@ -42,10 +55,11 @@ export default function ImpactCases({ t }) {
       label: t("results_case4_label"),
       period: t("results_case4_period"),
       kpi1Label: t("results_case4_kpi1_label"),
-      kpi1Value: "+10k subs",
+      kpi1Value: "+10k",
       kpi2Label: t("results_case4_kpi2_label"),
-      kpi2Value: "+5k people",
+      kpi2Value: "+5k",
       description: t("results_case4_description"),
+      metaFlip: true,
     },
     {
       id: "fitness-coach",
@@ -54,25 +68,24 @@ export default function ImpactCases({ t }) {
       kpi1Label: t("results_case5_kpi1_label"),
       kpi1Value: "+100k",
       kpi2Label: t("results_case5_kpi2_label"),
-      kpi2Value: "3-4k",
+      kpi2Value: "3–4k",
       description: t("results_case5_description"),
     },
   ];
 
   return (
     <VariantSection className="impact-section" id="results">
-      {/* Decorative Flowers */}
       <DecorativeFlower
         imageSrc="/flowers/flower4.PNG"
         sizeClass="flower-medium"
         delayClass="flower-delay-2"
-        style={{ top: "8%", left: "6%" }}
+        style={{ top: "6%", left: "4%" }}
       />
       <DecorativeFlower
         imageSrc="/flowers/flower8.PNG"
         sizeClass="flower-small"
         delayClass="flower-delay-4"
-        style={{ bottom: "10%", right: "7%" }}
+        style={{ bottom: "8%", right: "5%" }}
       />
 
       <SectionHeader
@@ -83,51 +96,40 @@ export default function ImpactCases({ t }) {
         descriptionClassName="impact-subtitle"
       />
 
-      <div className="impact-timeline">
+      <div className="impact-journal">
         {impactCases.map((item, index) => (
-          <div
+          <RevealRow
             key={item.id}
-            className={
-              "impact-row " +
-              (index % 2 === 0 ? "impact-row-left" : "impact-row-right")
-            }
+            className={index % 2 === 0 ? "impact-jrow--flip" : ""}
           >
-            <MotionArticle
-              className="metal-card impact-card"
-              variants={sharedCardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              custom={index}
-              whileHover={{ scale: 1.02, y: -4 }}
-              transition={{ type: "spring", stiffness: 220, damping: 22 }}
-            >
-              <div className="impact-card-inner">
-                <div className="impact-card-top">
-                  <div className="impact-icon-wrap">
-                    <span className="impact-icon" />
-                  </div>
-                  <div className="impact-title-block">
-                    <h3 className="impact-case-label">{item.label}</h3>
-                    <p className="impact-period">{item.period}</p>
-                  </div>
-                </div>
-
-                <div className="impact-kpis">
-                  <div className="impact-kpi">
-                    <div className="impact-kpi-value">{item.kpi1Value}</div>
-                    <div className="impact-kpi-label">{item.kpi1Label}</div>
-                  </div>
-                  <div className="impact-kpi">
-                    <div className="impact-kpi-value">{item.kpi2Value}</div>
-                    <div className="impact-kpi-label">{item.kpi2Label}</div>
-                  </div>
-                </div>
-
-                <p className="impact-description">{item.description}</p>
+            <div className="impact-jnum">
+              <div className="impact-jkpi">
+                <CountUpValue value={item.kpi1Value} className="impact-jvalue" />
+                <span className="impact-jlabel">{item.kpi1Label}</span>
               </div>
-            </MotionArticle>
-          </div>
+              <div className="impact-jsep" aria-hidden="true" />
+              <div className="impact-jkpi">
+                <CountUpValue value={item.kpi2Value} className="impact-jvalue" />
+                <span className="impact-jlabel">{item.kpi2Label}</span>
+              </div>
+            </div>
+            <div className="impact-jcontent">
+              <div className={`impact-jmeta ${item.metaFlip ? "impact-jmeta--flip" : ""}`}>
+                {item.metaFlip ? (
+                  <>
+                    <span className="impact-jperiod">{item.period}</span>
+                    <h3 className="impact-jbrand">{item.label}</h3>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="impact-jbrand">{item.label}</h3>
+                    <span className="impact-jperiod">{item.period}</span>
+                  </>
+                )}
+              </div>
+              <p className="impact-jdesc">{item.description}</p>
+            </div>
+          </RevealRow>
         ))}
       </div>
     </VariantSection>

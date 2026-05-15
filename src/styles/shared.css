@@ -1,6 +1,6 @@
 /* ====== SECTIONS GENERAL ====== */
 
-.brndz-section {
+.kairuxs-section {
   padding: 56px 6vw 96px;
   position: relative;
 }
@@ -8,9 +8,46 @@
 .section-shell {
   position: relative;
   isolation: isolate;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
-.brndz-section-last {
+/* ====== REVEAL ANIMATIONS ====== */
+
+.reveal-section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.reveal-section.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-card {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  transition-delay: calc(var(--i, 0) * 80ms + 300ms);
+}
+
+.reveal-section.is-visible .reveal-card {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-section,
+  .reveal-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.kairuxs-section-last {
   padding-bottom: 120px;
 }
 
@@ -29,7 +66,7 @@
   font-size: 1rem;
   margin: 0;
   line-height: 1.35;
-  color: var(--brndz-text-primary);
+  color: var(--kairuxs-text-primary);
 }
 
 .section-header p {
@@ -38,11 +75,15 @@
   font-size: 0.85rem;
   line-height: 1.7;
   text-wrap: balance;
-  color: var(--brndz-text-secondary);
+  color: var(--kairuxs-text-secondary);
 }
 
 .footer-shell {
   position: relative;
+  isolation: isolate;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 /* ====== GRID HELPERS ====== */
@@ -60,14 +101,14 @@
 
 .metal-card {
   position: relative;
-  border-radius: var(--brndz-radius-lg);
+  border-radius: var(--kairuxs-radius-lg);
   background: radial-gradient(
     circle at 0 0,
     rgba(255, 255, 255, 0.95),
     rgba(246, 230, 235, 0.8) 55%,
     #FFFFFF 100%
   );
-  border: 1px solid var(--brndz-border);
+  border: 1px solid var(--kairuxs-border);
   box-shadow: 0 8px 30px rgba(233, 166, 181, 0.15), 0 2px 10px rgba(233, 166, 181, 0.1);
   padding: 18px 18px 20px;
   overflow: hidden;
@@ -88,7 +129,7 @@
   );
   mix-blend-mode: multiply;
   opacity: 0;
-  transition: opacity var(--brndz-transition);
+  transition: opacity var(--kairuxs-transition);
   pointer-events: none;
 }
 
@@ -114,14 +155,14 @@
   text-transform: uppercase;
   letter-spacing: 0.14em;
   margin: 0;
-  color: var(--brndz-text-primary);
+  color: var(--kairuxs-text-primary);
 }
 
 .service-card p {
   margin: 0;
   font-size: 0.8rem;
   line-height: 1.65;
-  color: var(--brndz-text-secondary);
+  color: var(--kairuxs-text-secondary);
 }
 
 .metal-pill {
@@ -178,7 +219,7 @@
     ),
     radial-gradient(circle at 80% 100%, rgba(233, 166, 181, 0.6), transparent 40%);
   mix-blend-mode: soft-light;
-  transition: transform var(--brndz-transition), opacity var(--brndz-transition);
+  transition: transform var(--kairuxs-transition), opacity var(--kairuxs-transition);
 }
 
 .portfolio-card:hover .portfolio-metal-reflection {
@@ -196,7 +237,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--brndz-text-secondary);
+  color: var(--kairuxs-text-secondary);
 }
 
 .portfolio-info h3 {
@@ -204,11 +245,11 @@
   font-size: 0.9rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--brndz-text-primary);
+  color: var(--kairuxs-text-primary);
 }
 
 @media (max-width: 1024px) {
-  .brndz-section {
+  .kairuxs-section {
     padding: 52px 6vw 84px;
   }
 
@@ -218,11 +259,11 @@
 }
 
 @media (max-width: 768px) {
-  .brndz-section {
+  .kairuxs-section {
     padding: 52px 18px 72px;
   }
 
-  .brndz-section-last {
+  .kairuxs-section-last {
     padding-bottom: 88px;
   }
 

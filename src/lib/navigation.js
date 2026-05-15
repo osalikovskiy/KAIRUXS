@@ -1,7 +1,8 @@
+import { lenis } from './lenis';
+
 export function scrollToSection(id) {
   const element = document.getElementById(id);
-
   if (element) {
-    element.scrollIntoView({ behavior: "smooth", block: "start" });
+    lenis.scrollTo(element, { offset: 0 });
   }
 }

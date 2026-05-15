@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { additionalServiceTags, primaryNavItems } from "../data/site";
 import { scrollToSection } from "../lib/navigation";
+import { lenis } from "../lib/lenis";
 
 export default function Header({ t, LANGS, lang, setLang }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const go = (id) => {
     setMenuOpen(false);
+    lenis.start();
     scrollToSection(id);
   };
 
@@ -17,20 +19,24 @@ export default function Header({ t, LANGS, lang, setLang }) {
     };
     window.addEventListener("keydown", onKeyDown);
 
-    document.body.style.overflow = menuOpen ? "hidden" : "";
+    if (menuOpen) {
+      lenis.stop();
+    } else {
+      lenis.start();
+    }
 
     return () => {
       window.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = "";
+      lenis.start();
     };
   }, [menuOpen]);
 
   return (
     <>
-      <header className="brndz-header">
-        <div className="brndz-logo">KAIRUXS</div>
+      <header className="kairuxs-header">
+        <div className="kairuxs-logo">KAIRUXS</div>
 
-        <nav className="brndz-nav">
+        <nav className="kairuxs-nav">
           {primaryNavItems.map((item) => (
             <button key={item.id} onClick={() => scrollToSection(item.id)}>
               {t(item.labelKey)}
@@ -38,7 +44,7 @@ export default function Header({ t, LANGS, lang, setLang }) {
           ))}
         </nav>
 
-        <div className="brndz-header-right">
+        <div className="kairuxs-header-right">
           <div className="lang-switcher">
             {LANGS.map((l) => (
               <button
@@ -53,29 +59,29 @@ export default function Header({ t, LANGS, lang, setLang }) {
 
           {/* Burger (tablet + mobile) */}
           <button
-            className="brndz-burger"
+            className="kairuxs-burger"
             type="button"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
           >
-            <span className={"brndz-burger-lines" + (menuOpen ? " is-open" : "")} />
+            <span className={"kairuxs-burger-lines" + (menuOpen ? " is-open" : "")} />
           </button>
         </div>
       </header>
 
       {/* Backdrop */}
       <div
-        className={`brndz-menu-backdrop ${menuOpen ? "is-open" : ""}`}
+        className={`kairuxs-menu-backdrop ${menuOpen ? "is-open" : ""}`}
         onClick={() => setMenuOpen(false)}
       />
 
       {/* Slide-over Menu */}
-      <aside className={`brndz-menu ${menuOpen ? "is-open" : ""}`} aria-hidden={!menuOpen}>
-        <div className="brndz-menu-head">
-          <div className="brndz-menu-title">Menu</div>
+      <aside className={`kairuxs-menu ${menuOpen ? "is-open" : ""}`} aria-hidden={!menuOpen}>
+        <div className="kairuxs-menu-head">
+          <div className="kairuxs-menu-title">Menu</div>
           <button
-            className="brndz-menu-close"
+            className="kairuxs-menu-close"
             onClick={() => setMenuOpen(false)}
             aria-label="Close"
           >
@@ -83,7 +89,7 @@ export default function Header({ t, LANGS, lang, setLang }) {
           </button>
         </div>
 
-        <div className="brndz-menu-links">
+        <div className="kairuxs-menu-links">
           {primaryNavItems.map((item) => (
             <button key={item.id} onClick={() => go(item.id)}>
               {t(item.labelKey)}
@@ -91,31 +97,31 @@ export default function Header({ t, LANGS, lang, setLang }) {
           ))}
         </div>
 
-        <div className="brndz-menu-divider" />
+        <div className="kairuxs-menu-divider" />
 
-        <div className="brndz-menu-subtitle">Language</div>
-        <div className="brndz-menu-lang">
+        <div className="kairuxs-menu-subtitle">Language</div>
+        <div className="kairuxs-menu-lang">
           {LANGS.map((l) => (
             <button
               key={l.code}
               onClick={() => setLang(l.code)}
-              className={"brndz-menu-lang-btn" + (lang === l.code ? " is-active" : "")}
+              className={"kairuxs-menu-lang-btn" + (lang === l.code ? " is-active" : "")}
             >
               {l.label}
             </button>
           ))}
         </div>
 
-        <div className="brndz-menu-divider" />
+        <div className="kairuxs-menu-divider" />
 
-        <div className="brndz-menu-subtitle">Additional services</div>
-        <div className="brndz-menu-tags">
+        <div className="kairuxs-menu-subtitle">Additional services</div>
+        <div className="kairuxs-menu-tags">
           {additionalServiceTags.map((tag) => (
             <span key={tag}>{tag}</span>
           ))}
         </div>
 
-        <button className="brndz-menu-cta" onClick={() => go("contact")}>
+        <button className="kairuxs-menu-cta" onClick={() => go("contact")}>
           {t("nav_contact")} →
         </button>
       </aside>

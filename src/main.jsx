@@ -4,10 +4,10 @@ import "./styles.css";
 import App from './App.jsx'
 import { SpeedInsights } from "@vercel/speed-insights/react"
 import { Analytics } from "@vercel/analytics/react";
-
+import './lib/lenis';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode> 
+  <StrictMode>
     <App />
     <SpeedInsights />
     <Analytics />

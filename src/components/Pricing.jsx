@@ -1,24 +1,9 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
 import DecorativeFlower from "./ui/DecorativeFlower";
 import SectionHeader from "./ui/SectionHeader";
 import { RevealSection } from "./ui/AnimatedSection";
-import { createStaggerRevealProps, sectionRevealProps } from "../lib/animations";
 import { scrollToSection } from "../lib/navigation";
 
-const MotionDiv = motion.div;
-
 export default function Pricing({ t }) {
-  const sectionRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const glowYLeft = useTransform(scrollYProgress, [0, 1], [40, -40]);
-  const glowYRight = useTransform(scrollYProgress, [0, 1], [-30, 30]);
-
   const packages = [
     {
       name: t("pricing_starter_name"),
@@ -63,24 +48,10 @@ export default function Pricing({ t }) {
   ];
 
   return (
-    <RevealSection
-      ref={sectionRef}
-      className="pricing-section-new"
-      id="pricing"
-      revealProps={sectionRevealProps}
-    >
-      <MotionDiv
-        className="pricing-parallax-glow pricing-parallax-glow-left"
-        style={{ y: glowYLeft }}
-        aria-hidden="true"
-      />
-      <MotionDiv
-        className="pricing-parallax-glow pricing-parallax-glow-right"
-        style={{ y: glowYRight }}
-        aria-hidden="true"
-      />
+    <RevealSection className="pricing-section-new" id="pricing">
+      <div className="pricing-parallax-glow pricing-parallax-glow-left" aria-hidden="true" />
+      <div className="pricing-parallax-glow pricing-parallax-glow-right" aria-hidden="true" />
 
-      {/* Decorative Flowers */}
       <DecorativeFlower
         imageSrc="/flowers/flower4.PNG"
         sizeClass="flower-large"
@@ -103,14 +74,15 @@ export default function Pricing({ t }) {
       />
       <div className="pricing-cards-grid">
         {packages.map((pkg, index) => (
-          <MotionDiv
+          <div
             key={pkg.name}
-            className={`pricing-card-new ${
-              pkg.highlight ? "pricing-card-highlight-new" : ""
-            }`}
-            {...createStaggerRevealProps(index)}
+            className={`pricing-card-new reveal-card ${pkg.highlight ? "pricing-card-highlight-new" : ""}`}
+            style={{ "--i": index }}
           >
             <div className="pricing-card-metal-ring" />
+            {pkg.highlight && (
+              <div className="pricing-badge">{t("pricing_badge")}</div>
+            )}
             <div className="pricing-card-content">
               <div className="pricing-card-header">
                 <span className="pricing-card-name">{pkg.name}</span>
@@ -119,37 +91,28 @@ export default function Pricing({ t }) {
               <div className="pricing-card-price">{pkg.price}</div>
               <ul className="pricing-card-features">
                 {pkg.features.map((feature, idx) => (
-                  <li key={idx}>{feature}</li>
+                  <li key={idx}>
+                    <span className="feat-dot" aria-hidden="true" />
+                    <span className="feat-text">{feature}</span>
+                  </li>
                 ))}
               </ul>
-              <button
-                className="pricing-card-cta"
-                onClick={() => scrollToSection("contact")}
-              >
+              <button className="pricing-card-cta" onClick={() => scrollToSection("contact")}>
                 {t("pricing_btn")}
               </button>
             </div>
-          </MotionDiv>
+          </div>
         ))}
       </div>
       <div className="pricing-additional-services">
-        <div className="pricing-additional-content">
-          <h3 className="pricing-additional-title">{t("pricing_additional_title")}</h3>
-          <p className="pricing-additional-description">
-            {t("pricing_additional_desc").split("\n").map((line, i) => (
-              <span key={i}>
-                {line}
-                {i < t("pricing_additional_desc").split("\n").length - 1 && <br />}
-              </span>
-            ))}
-          </p>
-          <button
-            className="pricing-additional-cta"
-            onClick={() => scrollToSection("contact")}
-          >
-            {t("pricing_additional_btn")}
-          </button>
-        </div>
+        <span className="pricing-add-ghost" aria-hidden="true">CUSTOM</span>
+        <p className="pricing-add-kicker">{t("pricing_additional_title")}</p>
+        <h3 className="pricing-add-heading">{t("pricing_additional_desc_short")}</h3>
+        <div className="pricing-add-divider" />
+        <p className="pricing-add-desc">{t("pricing_additional_desc_full")}</p>
+        <button className="pricing-additional-cta" onClick={() => scrollToSection("contact")}>
+          {t("pricing_additional_btn")}
+        </button>
       </div>
     </RevealSection>
   );

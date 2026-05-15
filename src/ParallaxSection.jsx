@@ -1,129 +1,82 @@
 import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import { lenis } from "./lib/lenis";
 
 export default function HorizontalScrollSection({ children }) {
-  const containerRef = useRef(null);
   const wrapperRef = useRef(null);
-  const [useStaticLayout, setUseStaticLayout] = useState(false);
+  const trackRef   = useRef(null);
+  const sectionRef = useRef(null);
+  const [isCompact, setIsCompact] = useState(false);
 
   useEffect(() => {
-    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const compactViewportQuery = window.matchMedia("(max-width: 900px)");
-
-    const syncLayoutMode = () => {
-      setUseStaticLayout(
-        reducedMotionQuery.matches || compactViewportQuery.matches,
-      );
-    };
-
-    syncLayoutMode();
-    reducedMotionQuery.addEventListener("change", syncLayoutMode);
-    compactViewportQuery.addEventListener("change", syncLayoutMode);
-
-    return () => {
-      reducedMotionQuery.removeEventListener("change", syncLayoutMode);
-      compactViewportQuery.removeEventListener("change", syncLayoutMode);
-    };
+    const rm = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setIsCompact(rm.matches);
+    sync();
+    rm.addEventListener("change", sync);
+    return () => rm.removeEventListener("change", sync);
   }, []);
 
   useEffect(() => {
-    if (useStaticLayout || !containerRef.current || !wrapperRef.current) return;
+    if (isCompact) return;
 
-    const containerElement = containerRef.current;
-    let ctx = null;
-    let timeoutId = null;
+    const wrapper = wrapperRef.current;
+    const track   = trackRef.current;
+    const section = sectionRef.current;
+    if (!wrapper || !track || !section) return;
 
-    // Ждем, пока DOM полностью загрузится и размеры будут правильными
-    const initScroll = () => {
-      const sections = wrapperRef.current;
-      if (!sections) return;
-
-      // Принудительно пересчитываем размеры
-      const viewportWidth = window.innerWidth;
-      const totalWidth = sections.scrollWidth;
-      
-      if (totalWidth <= viewportWidth) {
-        // Если контент не шире экрана, не делаем горизонтальный скролл
-        return;
-      }
-
-      const scrollDistance = totalWidth - viewportWidth;
-
-      ctx = gsap.context(() => {
-        gsap.to(sections, {
-          x: -scrollDistance,
-          ease: "none",
-          scrollTrigger: {
-            trigger: containerElement,
-            start: "top top",
-            end: () => `+=${scrollDistance}`,
-            scrub: 0.5,
-            pin: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            refreshPriority: 1,
-          },
-        });
-      }, containerRef);
+    const setWrapperHeight = () => {
+      const scrollDist = track.scrollWidth - window.innerWidth;
+      if (scrollDist > 0) wrapper.style.height = `calc(100vh + ${scrollDist}px)`;
     };
 
-    // Даем время на рендер
-    timeoutId = setTimeout(() => {
-      initScroll();
-    }, 100);
+    setWrapperHeight();
+    window.addEventListener("resize", setWrapperHeight);
 
-    // Также инициализируем при изменении размера окна
-    const handleResize = () => {
-      ScrollTrigger.refresh();
+    const applyTranslate = (scroll) => {
+      const wrapperTop = wrapper.getBoundingClientRect().top + scroll;
+      const scrollDist = track.scrollWidth - window.innerWidth;
+      if (scrollDist <= 0) return;
+      const progress = Math.max(0, Math.min(1, (scroll - wrapperTop) / scrollDist));
+      track.style.transform = `translateX(${-scrollDist * progress}px)`;
+      section.style.setProperty("--scroll-progress", progress);
     };
-    window.addEventListener("resize", handleResize);
+
+    applyTranslate(window.scrollY);
+    const onScroll = ({ scroll }) => applyTranslate(scroll);
+    lenis.on("scroll", onScroll);
 
     return () => {
-      if (timeoutId) clearTimeout(timeoutId);
-      window.removeEventListener("resize", handleResize);
-      if (ctx) ctx.revert();
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.vars?.trigger === containerElement) {
-          trigger.kill();
-        }
-      });
+      window.removeEventListener("resize", setWrapperHeight);
+      lenis.off("scroll", onScroll);
+      if (track) track.style.transform = "";
     };
-  }, [useStaticLayout]);
+  }, [isCompact]);
 
-  if (useStaticLayout) {
+  if (isCompact) {
     return (
-      <section ref={containerRef} className="principles-section principles-section-static">
-        <div ref={wrapperRef} className="principles-stack">
-          {children}
-        </div>
+      <section className="principles-section principles-section-static">
+        <div className="principles-stack">{children}</div>
       </section>
     );
   }
 
   return (
-    <section
-      ref={containerRef}
-      className="principles-section principles-section-scroll"
-      style={{
-        position: "relative",
-        height: "100vh",
-        overflow: "hidden",
-      }}
-    >
-      <div
-        ref={wrapperRef}
-        className="principles-track"
-        style={{
-          display: "flex",
-          whiteSpace: "nowrap",
-          height: "100%",
-        }}
+    <div ref={wrapperRef} className="principles-wrapper">
+      <section
+        ref={sectionRef}
+        className="principles-section principles-section-scroll"
+        style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden", "--scroll-progress": 0 }}
       >
-        {children}
-      </div>
-    </section>
+        <div
+          ref={trackRef}
+          className="principles-track"
+          style={{ display: "flex", height: "100%", willChange: "transform", position: "relative" }}
+        >
+          {children}
+        </div>
+
+        {/* Bottom progress bar */}
+        <div className="pscroll-bar" aria-hidden="true" />
+      </section>
+    </div>
   );
 }

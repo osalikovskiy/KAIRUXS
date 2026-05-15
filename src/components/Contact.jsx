@@ -4,37 +4,24 @@ import SectionHeader from "./ui/SectionHeader";
 import { VariantSection } from "./ui/AnimatedSection";
 
 export default function Contact({ t }) {
-  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [status, setStatus] = useState("idle");
 
   const FORM_ENDPOINT = "https://formspree.io/f/mlggerzp";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (status === "loading" || status === "success") return;
     setStatus("loading");
-
     const formData = new FormData(e.target);
-
     try {
       const response = await fetch(FORM_ENDPOINT, {
         method: "POST",
         body: formData,
-        headers: {
-          Accept: "application/json",
-        },
+        headers: { Accept: "application/json" },
       });
-
-      if (!response.ok) {
-        throw new Error(`Form request failed with status ${response.status}`);
-      }
-
+      if (!response.ok) throw new Error(`${response.status}`);
       e.target.reset();
-
-      // чуть подержим лоадер, чтобы выглядело приятно
-      setTimeout(() => {
-        setStatus("success");
-      }, 1500);
+      setTimeout(() => setStatus("success"), 1500);
     } catch (err) {
       console.error(err);
       setStatus("error");
@@ -42,26 +29,14 @@ export default function Contact({ t }) {
   };
 
   const contactLinks = [
-    {
-      label: "Telegram",
-      href: "https://t.me/kairuxsmm",
-    },
-    {
-      label: "WhatsApp",
-      href: "https://wa.me/380932530473",
-    },
-    {
-      label: "Email",
-      href: "mailto:kairuxs.smm@gmail.com",
-    },
-    {
-      label: "Instagram",
-      href: "https://instagram.com/smm.kairuxs",
-    },
+    { label: "Telegram",  href: "https://t.me/kairuxsmm" },
+    { label: "WhatsApp",  href: "https://wa.me/380932530473" },
+    { label: "Email",     href: "mailto:kairuxs.smm@gmail.com" },
+    { label: "Instagram", href: "https://instagram.com/smm.kairuxs" },
   ];
+
   return (
-    <VariantSection className="brndz-section-last" id="contact">
-      {/* Decorative Flowers */}
+    <VariantSection className="kairuxs-section-last" id="contact">
       <DecorativeFlower
         imageSrc="/flowers/flower8.PNG"
         sizeClass="flower-small"
@@ -81,35 +56,44 @@ export default function Contact({ t }) {
       />
 
       <div className="contact-grid">
-        <div className="metal-card contact-cta">
-          <h3>{t("contact_start_title")}</h3>
-          <p>{t("contact_start_text")}</p>
-          <form
-            action="https://formspree.io/f/mlggerzp"
-            method="POST"
-            className="contact-form"
-            onSubmit={handleSubmit}
-          >
+
+        {/* ── Form ── */}
+        <div className="contact-form-wrap">
+          <p className="contact-section-kicker">{t("contact_start_title")}</p>
+          <h3 className="contact-section-heading">{t("contact_start_text")}</h3>
+
+          <form className="contact-form" onSubmit={handleSubmit}>
             <div className="field-row">
-              <input
-                type="text"
-                name="name"
-                placeholder={t("contact_form_name_placeholder")}
-                required
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder={t("contact_form_email_placeholder")}
-                required
-              />
+              <div className="contact-field">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder={t("contact_form_name_placeholder")}
+                  required
+                />
+                <span className="contact-field-line" />
+              </div>
+              <div className="contact-field">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder={t("contact_form_email_placeholder")}
+                  required
+                />
+                <span className="contact-field-line" />
+              </div>
             </div>
-            <textarea
-              rows="4"
-              name="description"
-              placeholder={t("contact_form_message_placeholder")}
-              required
-            />
+
+            <div className="contact-field">
+              <textarea
+                rows="4"
+                name="description"
+                placeholder={t("contact_form_message_placeholder")}
+                required
+              />
+              <span className="contact-field-line" />
+            </div>
+
             <button
               type="submit"
               className={`contact-submit contact-submit--${status}`}
@@ -120,23 +104,20 @@ export default function Contact({ t }) {
                   <span className="contact-submit-text">{t("contact_form_submit")}</span>
                 </span>
               )}
-
               {status === "loading" && (
                 <span className="contact-submit-inner">
                   <span className="contact-spinner" />
                   <span className="contact-submit-text">{t("contact_form_submit_loading")}</span>
                 </span>
               )}
-
               {status === "success" && (
                 <span className="contact-submit-inner">
                   <span className="contact-check">✓</span>
-                  <span className="contact-submit-text">
-                    {t("contact_form_submit_success")}
-                  </span>
+                  <span className="contact-submit-text">{t("contact_form_submit_success")}</span>
                 </span>
               )}
             </button>
+
             {status === "error" && (
               <p className="contact-form-error" role="alert">
                 {t("contact_form_submit_error")}
@@ -145,27 +126,27 @@ export default function Contact({ t }) {
           </form>
         </div>
 
-        <div className="metal-card contact-links">
-          <h3>{t("contact_quick_title")}</h3>
-          <div className="contact-icons">
+        {/* ── Links ── */}
+        <div className="contact-links-wrap">
+          <p className="contact-section-kicker">{t("contact_quick_title")}</p>
+
+          <div className="contact-link-list">
             {contactLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 target="_blank"
                 rel="noreferrer"
-                className="contact-icon"
+                className="contact-link-row"
               >
-                <span className="contact-icon-orb" />
-                <span className="contact-icon-label">{link.label}</span>
+                <span className="contact-link-label">{link.label}</span>
+                <span className="contact-link-arrow">→</span>
               </a>
             ))}
           </div>
-          <div className="contact-note">
-            <span>{t("contact_note_label")}</span>
-            <strong> {t("contact_note_value")}</strong>
-          </div>
+
         </div>
+
       </div>
     </VariantSection>
   );
