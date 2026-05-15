@@ -73,7 +73,18 @@
   background: rgba(246, 230, 235, 0.5);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border-top: 1px solid rgba(233, 166, 181, 0.2);
+}
+
+.about-info-area::before {
+  content: "";
+  position: absolute;
+  top: -72px;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background: linear-gradient(to bottom, transparent, rgba(246, 230, 235, 0.5));
+  pointer-events: none;
+  z-index: 0;
 }
 
 .about-info-inner {
@@ -262,6 +273,10 @@
     height: 55vh;
   }
 
+  .about-photo-area .decorative-flower {
+    display: none;
+  }
+
   .about-info-inner {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -306,7 +321,12 @@
   }
 
   .about-backdrop-text {
-    font-size: clamp(4rem, 22vw, 8rem);
+    font-size: 13vw;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 8%;
+    white-space: nowrap;
   }
 }
 

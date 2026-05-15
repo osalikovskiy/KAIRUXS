@@ -535,7 +535,8 @@
   }
 
   .pricing-add-ghost {
-    font-size: clamp(4rem, 20vw, 8rem);
+    font-size: 16vw;
+    letter-spacing: 0.03em;
   }
 
   .pricing-additional-cta {

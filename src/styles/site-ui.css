@@ -546,6 +546,7 @@
 
 .principles-section {
   position: relative;
+  overflow: hidden;
 }
 
 .principles-track {

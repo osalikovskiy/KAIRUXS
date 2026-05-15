@@ -1,16 +1,17 @@
+import { useState } from "react";
 import DecorativeFlower from "./ui/DecorativeFlower";
 import SectionHeader from "./ui/SectionHeader";
 import { VariantSection } from "./ui/AnimatedSection";
 import CountUpValue from "./ui/CountUpValue";
 import { useReveal } from "../lib/reveal";
 
-function RevealRow({ children, className, style }) {
+function RevealRow({ children, className, isOpen, onToggle }) {
   const [ref, visible] = useReveal({ threshold: 0.12 });
   return (
     <article
       ref={ref}
-      className={`impact-jrow ${className || ""} ${visible ? "row-visible" : ""}`}
-      style={style}
+      className={`impact-jrow ${className || ""} ${visible ? "row-visible" : ""} ${isOpen ? "is-open" : ""}`}
+      onClick={onToggle}
     >
       {children}
     </article>
@@ -18,6 +19,8 @@ function RevealRow({ children, className, style }) {
 }
 
 export default function ImpactCases({ t }) {
+  const [openIndex, setOpenIndex] = useState(null);
+  const toggle = (i) => setOpenIndex(prev => prev === i ? null : i);
   const impactCases = [
     {
       id: "beauty-salon",
@@ -101,6 +104,8 @@ export default function ImpactCases({ t }) {
           <RevealRow
             key={item.id}
             className={index % 2 === 0 ? "impact-jrow--flip" : ""}
+            isOpen={openIndex === index}
+            onToggle={() => toggle(index)}
           >
             <div className="impact-jnum">
               <div className="impact-jkpi">
@@ -129,6 +134,7 @@ export default function ImpactCases({ t }) {
               </div>
               <p className="impact-jdesc">{item.description}</p>
             </div>
+            <span className="impact-jtoggle" aria-hidden="true" />
           </RevealRow>
         ))}
       </div>

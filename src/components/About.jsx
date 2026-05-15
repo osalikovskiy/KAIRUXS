@@ -38,12 +38,15 @@ export default function About({ t }) {
       {/* ── Photo area with parallax ── */}
       <div ref={photoAreaRef} className="about-photo-area">
         <div ref={bgRef} className="about-bg" aria-hidden="true">
-          <img
-            src="/about/photo.jpg"
-            alt=""
-            className="about-bg-photo"
-            onError={(e) => { e.currentTarget.style.display = "none"; }}
-          />
+          <picture>
+            <source srcSet="/about/photo-mobile.jpg" media="(max-width: 768px)" />
+            <img
+              src="/about/photo.jpg"
+              alt=""
+              className="about-bg-photo"
+              onError={(e) => { e.currentTarget.style.display = "none"; }}
+            />
+          </picture>
         </div>
 
         <div className="about-backdrop-text" aria-hidden="true">KAIRUXS</div>

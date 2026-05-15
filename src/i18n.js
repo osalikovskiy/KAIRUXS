@@ -361,7 +361,7 @@ export const translations = {
     about_stat1_value: "3+",
     about_stat1_label: "Лет опыта",
     about_stat2_value: "7",
-    about_stat2_label: "Отраслей",
+    about_stat2_label: "Ниш",
     about_stat3_value: "4",
     about_stat3_label: "Страны",
     about_cta: "Начать работу →",
