@@ -30,8 +30,8 @@
 /* Background — bleeds 200px each side to always cover the mask fade zone */
 .about-bg {
   position: absolute;
-  top: -200px;
-  bottom: -200px;
+  top: -240px;
+  bottom: -240px;
   left: 0;
   right: 0;
   z-index: 0;

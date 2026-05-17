@@ -20,7 +20,7 @@ export default function About({ t }) {
       const rect = photoArea.getBoundingClientRect();
       const centerOffset = rect.top + rect.height / 2 - window.innerHeight / 2;
       // Clamp to ±160px so the photo never exits the bleed zone
-      const offset = Math.max(-160, Math.min(160, centerOffset * 0.12));
+      const offset = Math.max(-220, Math.min(220, centerOffset * 0.2));
       bg.style.transform = `translateY(${offset}px)`;
     };
 
