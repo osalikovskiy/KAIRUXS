@@ -373,7 +373,6 @@ export const translations = {
     footer_cta_btn: "Начать проект →",
   },
 
-  // Словацкий (черновой — лучше дать носителю вычитать позже)
   sk: {
     nav_services: "Služby",
     nav_cases: "Príklady",
@@ -550,7 +549,6 @@ export const translations = {
     footer_cta_btn: "Začať projekt →",
   },
 
-  // Немецкий (тоже как черновик)
   de: {
     nav_services: "Services",
     nav_cases: "Content Library",

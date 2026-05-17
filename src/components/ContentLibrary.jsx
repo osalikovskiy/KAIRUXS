@@ -4,6 +4,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { createPortal } from "react-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { contentLibraryData } from "../data/contentLibrary";
@@ -32,6 +33,8 @@ export default function ContentLibrary({ t }) {
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
   const previousFocusRef = useRef(null);
+  const modalPrevRef = useRef(null);
+  const modalNextRef = useRef(null);
   const dialogTitleId = useId();
   const [sectionRef, sectionVisible] = useReveal({ threshold: 0.15 });
 
@@ -245,121 +248,117 @@ export default function ContentLibrary({ t }) {
         </div>
       </div>
 
-      {isLoading && (
-        <div className="content-modal content-modal-loading">
-          <div className="content-loading-spinner" role="status" aria-live="polite" />
-        </div>
-      )}
-
-      {selectedItem && !isLoading && (
-        <div
-          className="content-modal"
-          onClick={closeModal}
-        >
-          <DecorativeFlower
-            imageSrc="/flowers/flower1.PNG"
-            className="modal-flower"
-            style={{ top: "8%", left: "5%", width: "280px", height: "280px" }}
-          />
-          <DecorativeFlower
-            imageSrc="/flowers/flower2.PNG"
-            className="modal-flower"
-            style={{ top: "10%", right: "8%", width: "520px", height: "520px" }}
-          />
-          <DecorativeFlower
-            imageSrc="/flowers/flower3.PNG"
-            className="modal-flower"
-            style={{ bottom: "5%", left: "10%", width: "300px", height: "300px" }}
-          />
-
-          <div className="modal-backdrop-text">KAIRUXS NOT JUST SMM</div>
-
-          <div
-            ref={modalRef}
-            className="content-modal-inner"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby={dialogTitleId}
-            onClick={(event) => event.stopPropagation()}
-          >
-            <button
-              ref={closeButtonRef}
-              type="button"
-              className="content-modal-close"
-              onClick={closeModal}
-              aria-label="Close content preview"
-            >
-              ✕
-            </button>
-
-            <div className="content-modal-media">
-              {selectedItem.media?.length ? (
-                <Swiper
-                  modules={[Navigation, Pagination]}
-                  spaceBetween={20}
-                  slidesPerView={1}
-                  navigation
-                  pagination={{ clickable: true }}
-                  className="content-modal-swiper"
-                  onSlideChange={handleSlideChange}
-                  onSwiper={() => {
-                    videoRefs.current = [];
-                    setCurrentSlide(0);
-                  }}
-                >
-                  {selectedItem.media.map((mediaItem, index) => (
-                    <SwiperSlide key={index}>
-                      {mediaItem.type === "video" ? (
-                        <video
-                          ref={(element) => {
-                            if (element) {
-                              videoRefs.current[index] = element;
-                            }
-                          }}
-                          src={mediaItem.src}
-                          poster={mediaItem.poster || selectedItem.mainImage}
-                          className="content-modal-video"
-                          loop
-                          muted
-                          playsInline
-                          controls
-                          preload="metadata"
-                          disablePictureInPicture
-                          disableRemotePlayback
-                        />
-                      ) : (
-                        <img
-                          src={mediaItem.src}
-                          alt={`${selectedItem.category} ${index + 1}`}
-                          className="content-modal-image"
-                          loading="lazy"
-                        />
-                      )}
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              ) : (
-                <img
-                  src={selectedItem.image || selectedItem.mainImage}
-                  alt={selectedItem.category}
-                  className="content-modal-image"
-                />
-              )}
+      {createPortal(
+        <>
+          {isLoading && (
+            <div className="content-modal content-modal-loading">
+              <div className="content-loading-spinner" role="status" aria-live="polite" />
             </div>
+          )}
 
-            <div className="content-modal-info">
-              <h3 id={dialogTitleId} className="content-modal-title">
-                {selectedItem.category}
-              </h3>
-              {selectedItem.media?.length ? (
-                <p className="content-modal-counter">
-                  {selectedItem.media.length} media item
-                  {selectedItem.media.length > 1 ? "s" : ""}
-                </p>
-              ) : null}
+          {selectedItem && !isLoading && (
+            <div className="content-modal" onClick={closeModal}>
+              <button
+                ref={closeButtonRef}
+                type="button"
+                className="content-modal-close"
+                onClick={closeModal}
+                aria-label="Close content preview"
+              >
+                ✕
+              </button>
+
+              <div
+                ref={modalRef}
+                className="content-modal-inner"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby={dialogTitleId}
+                onClick={(event) => event.stopPropagation()}
+              >
+                <div className="content-modal-media">
+                  {selectedItem.media?.length ? (
+                    <div className="content-modal-swiper-wrap">
+                      <div className="modal-nav-buttons">
+                        <button ref={modalPrevRef} type="button" className="modal-nav-btn modal-nav-prev" aria-label="Previous">
+                          <svg width="14" height="14" viewBox="0 0 10 10" fill="none"><path d="M6.5 1.5 3 5l3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        </button>
+                        <button ref={modalNextRef} type="button" className="modal-nav-btn modal-nav-next" aria-label="Next">
+                          <svg width="14" height="14" viewBox="0 0 10 10" fill="none"><path d="M3.5 1.5 7 5l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        </button>
+                      </div>
+                    <Swiper
+                      modules={[Navigation, Pagination]}
+                      spaceBetween={16}
+                      slidesPerView={1}
+                      navigation={{ prevEl: modalPrevRef.current, nextEl: modalNextRef.current }}
+                      pagination={{ clickable: true }}
+                      className="content-modal-swiper"
+                      onBeforeInit={(swiper) => {
+                        swiper.params.navigation.prevEl = modalPrevRef.current;
+                        swiper.params.navigation.nextEl = modalNextRef.current;
+                      }}
+                      onSlideChange={handleSlideChange}
+                      onSwiper={(swiper) => {
+                        videoRefs.current = [];
+                        setCurrentSlide(0);
+                      }}
+                    >
+                      {selectedItem.media.map((mediaItem, index) => (
+                        <SwiperSlide key={index}>
+                          {mediaItem.type === "video" ? (
+                            <video
+                              ref={(element) => {
+                                if (element) {
+                                  videoRefs.current[index] = element;
+                                }
+                              }}
+                              src={mediaItem.src}
+                              poster={mediaItem.poster || selectedItem.mainImage}
+                              className="content-modal-video"
+                              loop
+                              muted
+                              playsInline
+                              controls
+                              preload="metadata"
+                              disablePictureInPicture
+                              disableRemotePlayback
+                            />
+                          ) : (
+                            <img
+                              src={mediaItem.src}
+                              alt={`${selectedItem.category} ${index + 1}`}
+                              className="content-modal-image"
+                            />
+                          )}
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                    </div>
+                  ) : (
+                    <img
+                      src={selectedItem.image || selectedItem.mainImage}
+                      alt={selectedItem.category}
+                      className="content-modal-image"
+                    />
+                  )}
+                </div>
+
+                <div className="content-modal-footer">
+                  <span id={dialogTitleId} className="content-modal-category">
+                    {selectedItem.category}
+                  </span>
+                  {selectedItem.media?.length > 1 && (
+                    <span className="content-modal-counter">
+                      {currentSlide + 1}&thinsp;/&thinsp;{selectedItem.media.length}
+                    </span>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
+        </>,
+        document.body
       )}
     </section>
   );
