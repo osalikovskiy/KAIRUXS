@@ -204,6 +204,15 @@
   .principles-section-scroll .pslide-ghost {
     font-size: clamp(4rem, 18vw, 8rem);
   }
+
+  .principles-wave-svg,
+  .principles-wave-dot {
+    display: none;
+  }
+
+  .pslide-orb {
+    animation: none;
+  }
 }
 
 /* ======= IMPACT / RESULTS SECTION ======= */

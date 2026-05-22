@@ -61,38 +61,45 @@ export default function HorizontalScrollSection({ children }) {
 
     let wave = buildWave();
 
+    // Cache wrapperTop once — avoids getBoundingClientRect() on every scroll frame
+    let cachedWrapperTop = 0;
+    const updateWrapperTop = () => {
+      cachedWrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
+    };
+
     const setWrapperHeight = () => {
       const scrollDist = track.scrollWidth - window.innerWidth;
       if (scrollDist > 0) wrapper.style.height = `calc(100vh + ${scrollDist}px)`;
       wave = buildWave();
+      updateWrapperTop();
     };
 
     setWrapperHeight();
     window.addEventListener("resize", setWrapperHeight);
 
     const applyTranslate = (scroll) => {
-      const wrapperTop = wrapper.getBoundingClientRect().top + scroll;
       const scrollDist = track.scrollWidth - window.innerWidth;
       if (scrollDist <= 0) return;
 
-      const progress = Math.max(0, Math.min(1, (scroll - wrapperTop) / scrollDist));
+      const progress = Math.max(0, Math.min(1, (scroll - cachedWrapperTop) / scrollDist));
 
       track.style.transform = `translateX(${-scrollDist * progress}px)`;
       section.style.setProperty("--scroll-progress", progress);
 
-      // Reveal the line — dashoffset and path are now both in screen pixels
-      path.setAttribute("stroke-dashoffset", wave.totalLen * (1 - progress));
+      // Skip expensive SVG ops on mobile — wave/dot are hidden via CSS there anyway
+      if (window.innerWidth > 768) {
+        path.style.strokeDashoffset = wave.totalLen * (1 - progress);
 
-      // Move dot to the exact tip of the drawn line
-      if (dot) {
-        if (progress > 0.005 && progress < 0.995) {
-          const pt   = path.getPointAtLength(wave.totalLen * progress);
-          const dotX = pt.x - scrollDist * progress; // track px → screen px
-          const dotY = pt.y;
-          dot.style.transform = `translate(${dotX - 5}px, ${dotY - 5}px)`;
-          dot.style.opacity   = "1";
-        } else {
-          dot.style.opacity = "0";
+        if (dot) {
+          if (progress > 0.005 && progress < 0.995) {
+            const pt   = path.getPointAtLength(wave.totalLen * progress);
+            const dotX = pt.x - scrollDist * progress;
+            const dotY = pt.y;
+            dot.style.transform = `translate(${dotX - 5}px, ${dotY - 5}px)`;
+            dot.style.opacity   = "1";
+          } else {
+            dot.style.opacity = "0";
+          }
         }
       }
     };
@@ -164,6 +171,7 @@ export default function HorizontalScrollSection({ children }) {
         <div
           ref={dotRef}
           aria-hidden="true"
+          className="principles-wave-dot"
           style={{
             position: "absolute",
             top: 0,
