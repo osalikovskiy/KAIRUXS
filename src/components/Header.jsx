@@ -34,7 +34,7 @@ export default function Header({ t, LANGS, lang, setLang }) {
   return (
     <>
       <header className="kairuxs-header">
-        <div className="kairuxs-logo">KAIRUXS</div>
+        <button className="kairuxs-logo" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>KAIRUXS</button>
 
         <nav className="kairuxs-nav">
           {primaryNavItems.map((item) => (

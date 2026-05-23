@@ -55,7 +55,7 @@ const App = () => {
 
           {/* Principles */}
           <Suspense fallback={<SectionFallback />}>
-            <Principles />
+            <Principles t={t} />
           </Suspense>
 
           {/* Pricing */}

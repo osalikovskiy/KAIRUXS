@@ -156,7 +156,7 @@ export const translations = {
     results_case4_label: "Personal Brand",
     results_case4_period: "3 months collaboration",
     results_case4_kpi1_label: "Telegram",
-    results_case4_kpi2_label: "Trust",
+    results_case4_kpi2_label: "Leads",
     results_case4_description: "Built a clear content structure and communication style for a personal brand in crypto. Focused on explanations, trust and consistency across platforms.",
 
     // Case 5: Fitness Coach
@@ -170,12 +170,26 @@ export const translations = {
     contact_note_label: "Mode:",
     contact_note_value: "project-based / retainer / consulting",
 
+    // Principles horizontal scroll
+    principles_slide1_kicker: "I MAKE",
+    principles_slide1_title: "SOCIAL\nAESTHETICS.",
+    principles_slide1_subtitle: "Clean content and strategy made to fit your brand.",
+    principles_slide2_kicker: "DIGITAL PRESENCE",
+    principles_slide2_title: "CONTENT\nTHAT WORKS.",
+    principles_slide2_subtitle: "UGC and visual content built naturally — not forced.",
+    principles_slide3_kicker: "UNSKIPPABLE",
+    principles_slide3_title: "BRAND\nFEEL.",
+    principles_slide3_subtitle: "Calm, clear and consistent across every platform.",
+    principles_slide4_kicker: "KAIRUXS METHOD",
+    principles_slide4_title: "STRATEGY\n& DESIGN.",
+    principles_slide4_subtitle: "One pipeline from brand core to daily social presence.",
+
     // About
     about_kicker: "About me",
     about_name: "KIRA",
     about_role: "SMM Specialist · Content Creator · UGC",
     about_quote: "I don't just run accounts. I build brands people actually stop and look at.",
-    about_bio: "From Kyiv. Since 2020 I've built social presence for brands across UA, SK and DE.",
+    about_bio: "From Kyiv. Since 2020 I've built social presence for brands across Europe.",
     about_stat1_value: "3+",
     about_stat1_label: "Years",
     about_stat2_value: "7",
@@ -338,7 +352,7 @@ export const translations = {
     results_case4_label: "Личный бренд",
     results_case4_period: "3 месяца сотрудничества",
     results_case4_kpi1_label: "Telegram",
-    results_case4_kpi2_label: "Доверие",
+    results_case4_kpi2_label: "Лидов",
     results_case4_description: "Построили чёткую структуру контента и стиль коммуникации для личного бренда в крипто. Фокус на объяснениях, доверии и последовательности на всех платформах.",
 
     // Case 5: Fitness Coach
@@ -352,12 +366,26 @@ export const translations = {
     contact_note_label: "Mode:",
     contact_note_value: "project-based / retainer / consulting",
 
+    // Principles horizontal scroll
+    principles_slide1_kicker: "Я СОЗДАЮ",
+    principles_slide1_title: "СОЦИАЛЬНУЮ\nЭСТЕТИКУ.",
+    principles_slide1_subtitle: "Чистый контент и стратегия, созданные под твой бренд.",
+    principles_slide2_kicker: "ЦИФРОВОЕ ПРИСУТСТВИЕ",
+    principles_slide2_title: "КОНТЕНТ\nКОТОРЫЙ РАБОТАЕТ.",
+    principles_slide2_subtitle: "UGC и визуальный контент — органично, без наигранности.",
+    principles_slide3_kicker: "НЕ ПРОЛИСТАТЬ",
+    principles_slide3_title: "ОЩУЩЕНИЕ\nБРЕНДА.",
+    principles_slide3_subtitle: "Спокойно, чётко и единообразно на каждой платформе.",
+    principles_slide4_kicker: "МЕТОД KAIRUXS",
+    principles_slide4_title: "СТРАТЕГИЯ\n& ДИЗАЙН.",
+    principles_slide4_subtitle: "Один процесс — от сути бренда до ежедневного присутствия в соцсетях.",
+
     // About
     about_kicker: "Обо мне",
     about_name: "KIRA",
     about_role: "SMM-специалист · Контент-криэйтор · UGC",
-    about_quote: "Я не просто веду аккаунты. Я строю бренды, на которых люди останавливаются в ленте.",
-    about_bio: "Из Киева. С 2020 года развиваю присутствие брендов в соцсетях по всей UA, SK и DE.",
+    about_quote: "Я не про посты. Я про то, чтобы твой бренд запоминали.",
+    about_bio: "Из Киева. С 2020 года строю соцсети для брендов по всей Европе.",
     about_stat1_value: "3+",
     about_stat1_label: "Лет опыта",
     about_stat2_value: "7",
@@ -514,7 +542,7 @@ export const translations = {
     results_case4_label: "Osobná značka",
     results_case4_period: "3 mesiace spolupráce",
     results_case4_kpi1_label: "Telegram",
-    results_case4_kpi2_label: "Dôvera",
+    results_case4_kpi2_label: "Leady",
     results_case4_description: "Vytvorili sme jasnú štruktúru obsahu a komunikačný štýl pre osobnú značku v krypto. Zameranie na vysvetlenia, dôveru a konzistentnosť naprieč platformami.",
 
     // Case 5: Fitness Coach
@@ -528,12 +556,26 @@ export const translations = {
     contact_note_label: "Mode:",
     contact_note_value: "project-based / retainer / consulting",
 
+    // Principles horizontal scroll
+    principles_slide1_kicker: "TVORÍM",
+    principles_slide1_title: "SOCIÁLNU\nESTETIKU.",
+    principles_slide1_subtitle: "Čistý obsah a stratégia vytvorené pre váš brand.",
+    principles_slide2_kicker: "DIGITÁLNA PRÍTOMNOSŤ",
+    principles_slide2_title: "OBSAH\nKTORÝ FUNGUJE.",
+    principles_slide2_subtitle: "UGC a vizuálny obsah vytvorený prirodzene — bez donútenia.",
+    principles_slide3_kicker: "NEPRESKOČITEĽNÉ",
+    principles_slide3_title: "POCIT\nBRANDU.",
+    principles_slide3_subtitle: "Pokojné, jasné a konzistentné na každej platforme.",
+    principles_slide4_kicker: "METÓDA KAIRUXS",
+    principles_slide4_title: "STRATÉGIA\n& DIZAJN.",
+    principles_slide4_subtitle: "Jeden proces — od jadra značky po každodennú prítomnosť na sociálnych sieťach.",
+
     // About
     about_kicker: "O mne",
     about_name: "KIRA",
     about_role: "SMM špecialistka · Tvorkyňa obsahu · UGC",
     about_quote: "Nespravujem len účty. Budujem značky, pri ktorých ľudia zastavia palec.",
-    about_bio: "Z Kyjeva. Od roku 2020 budуjem prítomnosť značiek na sociálnych sieťach v UA, SK a DE.",
+    about_bio: "Z Kyjeva. Od roku 2020 budуjem sociálne siete pre značky po celej Európe.",
     about_stat1_value: "3+",
     about_stat1_label: "Roky",
     about_stat2_value: "7",
@@ -689,7 +731,7 @@ export const translations = {
     results_case4_label: "Persönliche Marke",
     results_case4_period: "3 Monate Zusammenarbeit",
     results_case4_kpi1_label: "Telegram",
-    results_case4_kpi2_label: "Vertrauen",
+    results_case4_kpi2_label: "Leads",
     results_case4_description: "Bauten eine klare Content-Struktur und Kommunikationsstil für eine persönliche Marke in Krypto auf. Fokus auf Erklärungen, Vertrauen und Konsistenz über Plattformen hinweg.",
 
     // Case 5: Fitness Coach
@@ -703,12 +745,26 @@ export const translations = {
     contact_note_label: "Mode:",
     contact_note_value: "project-based / retainer / consulting",
 
+    // Principles horizontal scroll
+    principles_slide1_kicker: "ICH MACHE",
+    principles_slide1_title: "SOZIALE\nÄSTHETIK.",
+    principles_slide1_subtitle: "Klarer Content und Strategie, maßgeschneidert für deine Marke.",
+    principles_slide2_kicker: "DIGITALE PRÄSENZ",
+    principles_slide2_title: "CONTENT\nDER WIRKT.",
+    principles_slide2_subtitle: "UGC und visueller Content — natürlich, nicht erzwungen.",
+    principles_slide3_kicker: "UNÜBERSPRINGBAR",
+    principles_slide3_title: "BRAND\nGEFÜHL.",
+    principles_slide3_subtitle: "Ruhig, klar und konsistent auf jeder Plattform.",
+    principles_slide4_kicker: "KAIRUXS METHODE",
+    principles_slide4_title: "STRATEGIE\n& DESIGN.",
+    principles_slide4_subtitle: "Ein Prozess — vom Markenkern bis zur täglichen Social-Media-Präsenz.",
+
     // About
     about_kicker: "Über mich",
     about_name: "KIRA",
     about_role: "SMM-Spezialistin · Content Creatorin · UGC",
     about_quote: "Ich verwalte nicht nur Accounts. Ich baue Marken, bei denen man wirklich innehält.",
-    about_bio: "Aus Kyiv. Seit 2020 baue ich die Social-Media-Präsenz von Marken in UA, SK und DE auf.",
+    about_bio: "Aus Kyiv. Seit 2020 baue ich Social-Media-Auftritte für Marken in ganz Europa auf.",
     about_stat1_value: "3+",
     about_stat1_label: "Jahre",
     about_stat2_value: "7",
