@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { scrollToSection } from "../lib/navigation";
 import { useKineticReveal } from "../lib/kineticReveal";
 import { useCursorSpotlight } from "../lib/useCursorSpotlight";
+import { useFitText } from "../lib/useFitText";
 import MagneticButton from "./ui/MagneticButton";
 
 export default function Hero({ t }) {
@@ -16,6 +17,10 @@ export default function Hero({ t }) {
     t("hero_title_line3"),
   ];
 
+  // Fit the headline to its bounded wrapper so long translations (SK/RU)
+  // shrink to stay on one screen instead of overflowing downward.
+  useFitText(titleRef, { min: 24, max: 150, dep: titleLines.join("|") });
+
   return (
     <section className="kairuxs-hero kairuxs-hero--dark" id="hero" ref={heroRef}>
       <div className="hero-bg-photo hero-bg-photo--base" aria-hidden="true" />
@@ -25,13 +30,15 @@ export default function Hero({ t }) {
       <div className="hero-inner hero-inner--full">
         <span className="hero-kicker">{t("hero_kicker")}</span>
 
-        <h1 ref={titleRef} className="hero-title-full">
-          {titleLines.map((line, i) => (
-            <span className="hero-line-mask" key={i}>
-              <span className="hero-line" data-kinetic-line>{line}</span>
-            </span>
-          ))}
-        </h1>
+        <div className="hero-title-wrap">
+          <h1 ref={titleRef} className="hero-title-full">
+            {titleLines.map((line, i) => (
+              <span className="hero-line-mask" key={i}>
+                <span className="hero-line" data-kinetic-line>{line}</span>
+              </span>
+            ))}
+          </h1>
+        </div>
 
         <div className="hero-bottom-row">
           <p className="hero-sub">{t("hero_sub")}</p>
