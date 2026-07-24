@@ -20,7 +20,7 @@ export default function Services({ t }) {
   return (
     <RevealSection id="services">
       <DecorativeFlower
-        imageSrc="/flowers/flower3.PNG"
+        imageSrc="/flowers/flower3.webp"
         sizeClass="flower-small"
         delayClass="flower-delay-2"
         style={{ top: "5%", right: "4%" }}

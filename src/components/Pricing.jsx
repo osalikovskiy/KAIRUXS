@@ -53,13 +53,13 @@ export default function Pricing({ t }) {
       <div className="pricing-parallax-glow pricing-parallax-glow-right" aria-hidden="true" />
 
       <DecorativeFlower
-        imageSrc="/flowers/flower4.PNG"
+        imageSrc="/flowers/flower4.webp"
         sizeClass="flower-large"
         delayClass="flower-delay-1"
         style={{ top: "8%", left: "3%" }}
       />
       <DecorativeFlower
-        imageSrc="/flowers/flower6.PNG"
+        imageSrc="/flowers/flower6.webp"
         sizeClass="flower-medium"
         delayClass="flower-delay-3"
         style={{ bottom: "5%", right: "6%" }}

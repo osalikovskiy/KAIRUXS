@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { lenis } from "./lenis";
 
 const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
@@ -31,8 +32,13 @@ export function useCursorSpotlight(ref, { restX = 50, restY = 42 } = {}) {
       return undefined;
     }
 
+    // Cache the element's rect and only recompute it on resize/scroll, so
+    // mousemove (fires every pixel) no longer triggers a forced layout each
+    // time. The rect only actually changes when the hero moves/resizes.
+    let rect = el.getBoundingClientRect();
+    const measure = () => { rect = el.getBoundingClientRect(); };
+
     const onMove = (e) => {
-      const rect = el.getBoundingClientRect();
       target.current = {
         x: ((e.clientX - rect.left) / rect.width) * 100,
         y: ((e.clientY - rect.top) / rect.height) * 100,
@@ -54,10 +60,14 @@ export function useCursorSpotlight(ref, { restX = 50, restY = 42 } = {}) {
     rafId.current = requestAnimationFrame(tick);
     el.addEventListener("mousemove", onMove);
     el.addEventListener("mouseleave", onLeave);
+    window.addEventListener("resize", measure);
+    lenis.on("scroll", measure);
 
     return () => {
       el.removeEventListener("mousemove", onMove);
       el.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("resize", measure);
+      lenis.off("scroll", measure);
       cancelAnimationFrame(rafId.current);
     };
   }, [ref, restX, restY]);

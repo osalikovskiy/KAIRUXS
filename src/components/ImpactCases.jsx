@@ -86,13 +86,13 @@ export default function ImpactCases({ t }) {
   return (
     <VariantSection className="impact-section" id="results">
       <DecorativeFlower
-        imageSrc="/flowers/flower4.PNG"
+        imageSrc="/flowers/flower4.webp"
         sizeClass="flower-medium"
         delayClass="flower-delay-2"
         style={{ top: "6%", left: "4%" }}
       />
       <DecorativeFlower
-        imageSrc="/flowers/flower8.PNG"
+        imageSrc="/flowers/flower8.webp"
         sizeClass="flower-small"
         delayClass="flower-delay-4"
         style={{ bottom: "8%", right: "5%" }}

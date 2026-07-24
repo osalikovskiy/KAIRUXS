@@ -1,5 +1,7 @@
 /* ====== BASE / TOKENS ====== */
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@400;500;600&display=swap");
+/* Fonts (Orbitron + Montserrat) are loaded via <link> in index.html, not an
+   @import here — an @import inside CSS is a render-blocking request chained
+   behind this stylesheet, which delayed FCP. */
 
 :root {
   /* ---- Layer 1 · primitives (palette) ---- */

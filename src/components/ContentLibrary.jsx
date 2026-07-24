@@ -167,7 +167,7 @@ export default function ContentLibrary({ t }) {
       id="content-library"
     >
       <DecorativeFlower
-        imageSrc="/flowers/flower3.PNG"
+        imageSrc="/flowers/flower3.webp"
         sizeClass="flower-large"
         delayClass="flower-delay-2"
         style={{ top: "15%", right: "4%" }}
