@@ -1,74 +1,48 @@
-import {
-  Heart,
-  Flame,
-  MessageCircle,
-  Bookmark,
-  Users,
-  Camera,
-} from "lucide-react";
+import { useRef } from "react";
 import { scrollToSection } from "../lib/navigation";
-
-const socialElements = [
-  { type: "like", delay: 0.3, Icon: Heart, text: "+2.4K" },
-  { type: "comment", delay: 0.5, Icon: MessageCircle, text: "156" },
-  { type: "story", delay: 0.7, Icon: Camera, text: "Story" },
-  { type: "follower", delay: 0.9, Icon: Users, text: "+12K" },
-  { type: "fire", delay: 1.1, Icon: Flame, text: "Hot" },
-  { type: "save", delay: 1.3, Icon: Bookmark, text: "89" },
-];
+import { useKineticReveal } from "../lib/kineticReveal";
+import { useCursorSpotlight } from "../lib/useCursorSpotlight";
+import MagneticButton from "./ui/MagneticButton";
 
 export default function Hero({ t }) {
+  const heroRef = useRef(null);
+  const titleRef = useRef(null);
+  useKineticReveal(titleRef, { start: "top 95%", stagger: 0.08 });
+  useCursorSpotlight(heroRef);
+
+  const titleLines = [
+    t("hero_title_line1"),
+    t("hero_title_line2"),
+    t("hero_title_line3"),
+  ];
+
   return (
-    <section className="kairuxs-hero" id="hero">
-      <div className="hero-overlay" />
-      <div className="hero-inner">
-        <div className="hero-text">
-          <span className="hero-kicker">{t("hero_kicker")}</span>
-          <h1>
-            {t("hero_title_line1")}
-            <br />
-            {t("hero_title_line2")}
-            <br />
-            {t("hero_title_line3")}
-          </h1>
+    <section className="kairuxs-hero kairuxs-hero--dark" id="hero" ref={heroRef}>
+      <div className="hero-bg-photo hero-bg-photo--base" aria-hidden="true" />
+      <div className="hero-bg-photo hero-bg-photo--spotlight" aria-hidden="true" />
+      <div className="hero-scrim" aria-hidden="true" />
+
+      <div className="hero-inner hero-inner--full">
+        <span className="hero-kicker">{t("hero_kicker")}</span>
+
+        <h1 ref={titleRef} className="hero-title-full">
+          {titleLines.map((line, i) => (
+            <span className="hero-line-mask" key={i}>
+              <span className="hero-line" data-kinetic-line>{line}</span>
+            </span>
+          ))}
+        </h1>
+
+        <div className="hero-bottom-row">
           <p className="hero-sub">{t("hero_sub")}</p>
           <div className="hero-actions">
-            <button className="btn-primary" onClick={() => scrollToSection("services")}>
+            <MagneticButton className="btn-primary" onClick={() => scrollToSection("services")}>
               {t("hero_btn_primary")}
-            </button>
-            <button className="btn-secondary" onClick={() => scrollToSection("services")}>
+            </MagneticButton>
+            <MagneticButton className="btn-secondary btn-secondary--dark" onClick={() => scrollToSection("services")}>
               {t("hero_btn_secondary")}
-            </button>
+            </MagneticButton>
           </div>
-        </div>
-
-        <div className="hero-visual">
-          <div className="hero-photo-frame">
-            <div className="hero-photo-inner">
-              <div className="hero-photo-gradient"></div>
-              <div className="hero-photo-placeholder">
-                <img src="/flowers/flower1.PNG" alt="" />
-              </div>
-            </div>
-            <div className="hero-photo-ring"></div>
-          </div>
-
-          {socialElements.map((el) => {
-            const Icon = el.Icon;
-            return (
-              <div
-                key={el.type}
-                className={`hero-social-bubble ${el.type}`}
-                aria-hidden="true"
-                style={{ "--bubble-delay": `${el.delay}s` }}
-              >
-                <span className="bubble-icon" aria-hidden="true">
-                  <Icon size={18} />
-                </span>
-                <span className="bubble-text">{el.text}</span>
-              </div>
-            );
-          })}
         </div>
       </div>
     </section>
