@@ -130,7 +130,9 @@ export const translations = {
     // KAIRUXS Results
     results_title: "KAIRUXS RESULTS",
     results_subtitle: "Real metrics from our clients — numbers behind digital branding.",
-    
+    results_headline_line1: "LET'S TALK",
+    results_headline_line2: "NUMBERS.",
+
     // Case 1: Beauty Salon
     results_case1_label: "Beauty Salon",
     results_case1_period: "3 months collaboration",
@@ -326,6 +328,8 @@ export const translations = {
     // KAIRUXS Results
     results_title: "РЕЗУЛЬТАТЫ KAIRUXS",
     results_subtitle: "Реальные метрики наших клиентов — цифры за цифровым брендингом.",
+    results_headline_line1: "Давай поговорим",
+    results_headline_line2: "о цифрах.",
     
     // Case 1: Beauty Salon
     results_case1_label: "Салон красоты",
@@ -516,7 +520,9 @@ export const translations = {
     // KAIRUXS Results
     results_title: "VÝSLEDKY KAIRUXS",
     results_subtitle: "Reálne metriky našich klientov — čísla za digitálnym brandingom.",
-    
+    results_headline_line1: "Poďme sa baviť",
+    results_headline_line2: "o číslach.",
+
     // Case 1: Beauty Salon
     results_case1_label: "Salón krásy",
     results_case1_period: "3 mesiace spolupráce",
@@ -705,7 +711,9 @@ export const translations = {
     // KAIRUXS Results
     results_title: "KAIRUXS ERGEBNISSE",
     results_subtitle: "Echte Kennzahlen unserer Kunden — Zahlen hinter digitalem Branding.",
-    
+    results_headline_line1: "Reden wir über",
+    results_headline_line2: "Zahlen.",
+
     // Case 1: Beauty Salon
     results_case1_label: "Schönheitssalon",
     results_case1_period: "3 Monate Zusammenarbeit",
