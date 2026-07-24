@@ -5,6 +5,10 @@ import { lenis } from "../lib/lenis";
 
 export default function Header({ t, LANGS, lang, setLang }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  // Starts true: first paint always sits over the dark hero (see the
+  // scroll-restoration fix in index.html), so default to the dark header
+  // rather than flashing light before the observer below fires.
+  const [overDark, setOverDark] = useState(true);
 
   const go = (id) => {
     setMenuOpen(false);
@@ -31,9 +35,26 @@ export default function Header({ t, LANGS, lang, setLang }) {
     };
   }, [menuOpen]);
 
+  // Header inverts to a dark/glass, light-text look while the dark hero
+  // sits behind it, then switches back to the default light header as soon
+  // as the hero scrolls out from under it.
+  useEffect(() => {
+    const hero = document.getElementById("hero");
+    if (!hero) return undefined;
+
+    const headerHeight = window.matchMedia("(max-width: 1024px)").matches ? 64 : 88;
+    const observer = new IntersectionObserver(
+      ([entry]) => setOverDark(entry.isIntersecting),
+      { rootMargin: `-${headerHeight}px 0px 0px 0px`, threshold: 0 }
+    );
+    observer.observe(hero);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
-      <header className="kairuxs-header">
+      <header className={`kairuxs-header ${overDark ? "kairuxs-header--on-dark" : ""}`}>
         <button className="kairuxs-logo" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>KAIRUXS</button>
 
         <nav className="kairuxs-nav">
