@@ -38,13 +38,13 @@ export default function Contact({ t }) {
   return (
     <VariantSection className="kairuxs-section-last" id="contact">
       <DecorativeFlower
-        imageSrc="/flowers/flower8.PNG"
+        imageSrc="/flowers/flower8.webp"
         sizeClass="flower-small"
         delayClass="flower-delay-1"
         style={{ top: "10%", left: "8%" }}
       />
       <DecorativeFlower
-        imageSrc="/flowers/flower2.PNG"
+        imageSrc="/flowers/flower2.webp"
         sizeClass="flower-large"
         delayClass="flower-delay-2"
         style={{ bottom: "12%", right: "5%" }}

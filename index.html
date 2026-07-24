@@ -13,10 +13,9 @@
       window.scrollTo(0, 0);
     </script>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/flowers/flower1.PNG" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/flowers/flower1.PNG" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/flowers/flower1.PNG" />
+    <!-- Favicon (small dedicated icon — was pulling a 285 KB flower PNG) -->
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png" />
 
     <!-- Primary SEO -->
     <title>KAIRUXS — Social Media Specialist | SMM · Content Creator · UGC</title>
@@ -26,9 +25,17 @@
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://kairuxs.com" />
 
-    <!-- Fonts: preconnect only — @import in base.css still loads Orbitron/Montserrat -->
+    <!-- Fonts: loaded here (not via @import in CSS) so the request isn't
+         chained behind the stylesheet — parallel + preconnected = faster FCP. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@400;500;600&display=swap"
+    />
+
+    <!-- Start the hero background download immediately (LCP region) -->
+    <link rel="preload" as="image" href="/flowers/hero.webp" fetchpriority="high" />
 
     <!-- Theme -->
     <meta name="theme-color" content="#E9A6B5" />

@@ -53,13 +53,13 @@ export default function About({ t }) {
         <div className="about-backdrop-text" aria-hidden="true">KAIRUXS</div>
 
         <DecorativeFlower
-          imageSrc="/flowers/flower2.PNG"
+          imageSrc="/flowers/flower2.webp"
           sizeClass="flower-large"
           delayClass="flower-delay-1"
           style={{ top: "8%", right: "6%", opacity: 0.55 }}
         />
         <DecorativeFlower
-          imageSrc="/flowers/flower7.PNG"
+          imageSrc="/flowers/flower7.webp"
           sizeClass="flower-medium"
           delayClass="flower-delay-3"
           style={{ bottom: "14%", left: "5%", opacity: 0.4 }}

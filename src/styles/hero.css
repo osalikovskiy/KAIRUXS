@@ -20,7 +20,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: url("/flowers/hero.png");
+  background-image: url("/flowers/hero.webp");
   background-size: cover;
   background-position: center 68%;
   background-repeat: no-repeat;
