@@ -25,6 +25,25 @@
   border-color: rgba(233, 166, 181, 0.4);
 }
 
+.kairuxs-header--on-dark .kairuxs-burger {
+  background: rgba(246, 230, 235, 0.1);
+  border-color: rgba(246, 230, 235, 0.2);
+}
+
+.kairuxs-header--on-dark .kairuxs-burger:hover {
+  background: rgba(246, 230, 235, 0.18);
+}
+
+.kairuxs-header--on-dark .kairuxs-burger-lines,
+.kairuxs-header--on-dark .kairuxs-burger-lines::before,
+.kairuxs-header--on-dark .kairuxs-burger-lines::after {
+  background: #F7ECEF;
+}
+
+.kairuxs-header--on-dark .kairuxs-burger-lines.is-open {
+  background: transparent;
+}
+
 .kairuxs-burger-lines {
   position: absolute;
   top: 50%;
@@ -124,7 +143,7 @@
 }
 
 .kairuxs-menu-title {
-  font-family: "Orbitron", system-ui, sans-serif;
+  font-family: var(--font-display);
   letter-spacing: 0.32em;
   text-transform: uppercase;
   font-size: 1rem;
@@ -173,7 +192,7 @@
   padding: 18px 0;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  font-family: "Orbitron", system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 0.72rem;
   cursor: pointer;
   width: 100%;
@@ -224,7 +243,7 @@
 .kairuxs-menu-lang-btn {
   border: none;
   background: transparent;
-  font-family: "Orbitron", system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 0.62rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -289,7 +308,7 @@
   );
   color: #fff;
   padding: 12px 16px;
-  font-family: "Orbitron", system-ui, sans-serif;
+  font-family: var(--font-display);
   text-transform: uppercase;
   letter-spacing: 0.18em;
   font-size: 0.78rem;
@@ -512,11 +531,8 @@
   }
 
   .decorative-flower,
-  .hero-photo-inner,
-  .hero-photo-ring,
-  .hero-social-bubble,
   .modal-flower,
-  .principles-title {
+  .principle-title {
     animation: none !important;
   }
 }

@@ -4,6 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Reloading (F5) restores the browser's remembered scroll position by
+         default, which can land mid-page before layout has settled — kills
+         the dark-hero-with-cursor-spotlight first impression. Force every
+         load to start at the top instead. -->
+    <script>
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      window.scrollTo(0, 0);
+    </script>
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="/flowers/flower1.PNG" />
     <link rel="icon" type="image/png" sizes="16x16" href="/flowers/flower1.PNG" />
@@ -16,6 +25,10 @@
     <meta name="author" content="KIRA — KAIRUXS" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://kairuxs.com" />
+
+    <!-- Fonts: preconnect only — @import in base.css still loads Orbitron/Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Theme -->
     <meta name="theme-color" content="#E9A6B5" />

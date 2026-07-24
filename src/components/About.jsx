@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import DecorativeFlower from "./ui/DecorativeFlower";
 import CountUpValue from "./ui/CountUpValue";
+import MagneticButton from "./ui/MagneticButton";
 import { useReveal } from "../lib/reveal";
 import { scrollToSection } from "../lib/navigation";
 import { lenis } from "../lib/lenis";
@@ -99,12 +100,12 @@ export default function About({ t }) {
                 <span className="about-stat-label">{t("about_stat3_label")}</span>
               </div>
             </div>
-            <button
+            <MagneticButton
               className="btn-primary about-cta"
               onClick={() => scrollToSection("contact")}
             >
               {t("about_cta")}
-            </button>
+            </MagneticButton>
           </div>
 
         </div>

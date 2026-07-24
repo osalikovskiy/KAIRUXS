@@ -9,8 +9,7 @@ export const lenis = new Lenis({
   smoothTouch: false,
 });
 
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
+// The rAF loop that actually ticks `lenis` lives in ./gsap.js (gsap.ticker
+// drives it, kept in sync with ScrollTrigger). This module only owns the
+// singleton instance so it can be imported independently without pulling
+// in GSAP.

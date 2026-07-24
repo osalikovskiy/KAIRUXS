@@ -1,4 +1,5 @@
 import { scrollToSection } from "../lib/navigation";
+import MagneticButton from "./ui/MagneticButton";
 
 export default function Footer({ t }) {
   return (
@@ -9,12 +10,12 @@ export default function Footer({ t }) {
           <span>{t("footer_cta_line1")}</span>
           <span className="footer-cta-heading-alt">{t("footer_cta_line2")}</span>
         </h2>
-        <button
+        <MagneticButton
           className="btn-primary footer-cta-btn"
           onClick={() => scrollToSection("contact")}
         >
           {t("footer_cta_btn")}
-        </button>
+        </MagneticButton>
       </div>
 
       <div className="footer-bar">

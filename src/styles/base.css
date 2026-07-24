@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@400;500;600&display=swap");
 
 :root {
+  /* ---- Layer 1 · primitives (palette) ---- */
   --kairuxs-pink: #E9A6B5;
   --kairuxs-pink-light: #F6E6EB;
   --kairuxs-pink-darker: #D48B9E;
@@ -11,10 +12,64 @@
   --kairuxs-bg: #F6E6EB;
   --kairuxs-bg-elevated: #FFFFFF;
   --kairuxs-border: rgba(233, 166, 181, 0.3);
+
+  /* deep contrast anchor (dark section) */
+  --kairuxs-plum: #1C0F15;
+  --kairuxs-plum-elevated: #2A1720;
+  --kairuxs-neon: #FF9DB4;
+  --kairuxs-on-dark: #F6E6EB;
+  --kairuxs-on-dark-muted: rgba(246, 230, 235, 0.62);
+
+  /* ---- Layer 2 · semantic aliases ---- */
+  --surface: var(--kairuxs-bg);
+  --surface-elevated: var(--kairuxs-bg-elevated);
+  --surface-dark: var(--kairuxs-plum);
+  --text: var(--kairuxs-text-primary);
+  --text-muted: var(--kairuxs-text-secondary);
+  --accent: var(--kairuxs-pink);
+  --accent-deep: var(--kairuxs-pink-darker);
+  --border: var(--kairuxs-border);
+
+  /* ---- Typography ---- */
+  --font-display: "Orbitron", system-ui, sans-serif;
+  --font-body: "Montserrat", system-ui, -apple-system, sans-serif;
+  --font-ui: "Orbitron", system-ui, sans-serif;
+
+  /* fluid modular type scale */
+  --fs-1: clamp(0.72rem, 0.68rem + 0.2vw, 0.8rem);
+  --fs-2: clamp(0.82rem, 0.78rem + 0.25vw, 0.95rem);
+  --fs-3: clamp(0.95rem, 0.9rem + 0.35vw, 1.12rem);
+  --fs-4: clamp(1.15rem, 1rem + 0.7vw, 1.5rem);
+  --fs-5: clamp(1.6rem, 1.3rem + 1.4vw, 2.4rem);
+  --fs-6: clamp(2.2rem, 1.6rem + 2.8vw, 3.6rem);
+  --fs-7: clamp(3rem, 2rem + 5vw, 5.5rem);
+  --fs-8: clamp(3.8rem, 2.2rem + 8vw, 8rem);
+  --fs-9: clamp(4.5rem, 2rem + 12vw, 11rem);
+
+  /* ---- Spacing scale ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --space-6: 64px;
+  --space-7: 96px;
+  --space-8: 128px;
+
+  /* ---- Radii ---- */
   --kairuxs-radius-lg: 26px;
   --kairuxs-radius-xl: 32px;
+
+  /* ---- Shadows (rose-tinted) ---- */
+  --shadow-sm: 0 2px 10px rgba(233, 166, 181, 0.12);
+  --shadow-md: 0 12px 40px rgba(233, 166, 181, 0.18), 0 2px 10px rgba(233, 166, 181, 0.1);
+  --shadow-lg: 0 24px 70px rgba(212, 139, 158, 0.28), 0 6px 24px rgba(233, 166, 181, 0.16);
+  --shadow-glow: 0 0 40px rgba(233, 166, 181, 0.35);
+
+  /* ---- Motion ---- */
   --kairuxs-transition-fast: 0.18s ease-out;
   --kairuxs-transition: 0.28s ease-out;
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 
@@ -42,7 +97,7 @@ body {
   background: #F6E6EB;
   min-height: 100vh;
   color: var(--kairuxs-text-primary);
-  font-family: "Montserrat", system-ui, -apple-system, sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -75,7 +130,7 @@ body::before {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Orbitron", system-ui, sans-serif;
+  font-family: var(--font-display);
 }
 
 button {
@@ -150,6 +205,25 @@ select {
   mix-blend-mode: overlay;
 }
 
+/* ====== FILM GRAIN ====== */
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain-overlay {
+    display: none;
+  }
+}
+
 /* ====== HEADER ====== */
 
 .kairuxs-header {
@@ -166,13 +240,20 @@ select {
   -webkit-backdrop-filter: blur(24px);
   background: rgba(246, 230, 235, 0.35);
   border-bottom: 1px solid rgba(233, 166, 181, 0.15);
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+/* While the dark hero sits behind it (see Header.jsx's IntersectionObserver) */
+.kairuxs-header--on-dark {
+  background: rgba(21, 11, 14, 0.32);
+  border-bottom-color: rgba(246, 230, 235, 0.1);
 }
 
 .kairuxs-logo {
   border: none;
   background-color: transparent;
   cursor: pointer;
-  font-family: "Orbitron", system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.38em;
@@ -197,6 +278,19 @@ select {
   50%       { background-position: 100% 50%; }
 }
 
+.kairuxs-header--on-dark .kairuxs-logo {
+  background: linear-gradient(
+    120deg,
+    #F7ECEF,
+    var(--kairuxs-pink),
+    #F7ECEF
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 @media (max-width: 640px) {
   .kairuxs-logo {
     font-size: 0.75rem;
@@ -213,7 +307,7 @@ select {
   border: none;
   background: transparent;
   color: var(--kairuxs-text-secondary);
-  font-family: "Orbitron", system-ui, sans-serif;
+  font-family: var(--font-ui);
   font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -242,5 +336,13 @@ select {
 
 .kairuxs-nav button:hover::after {
   transform: scaleX(1);
+}
+
+.kairuxs-header--on-dark .kairuxs-nav button {
+  color: rgba(246, 230, 235, 0.7);
+}
+
+.kairuxs-header--on-dark .kairuxs-nav button:hover {
+  color: #F7ECEF;
 }
 
