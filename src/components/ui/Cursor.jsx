@@ -20,7 +20,16 @@ export default function Cursor() {
       dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
 
       const el = e.target.closest("a, button, [role='button'], input, textarea, select, label, [tabindex]");
-      magnetTarget.current = el;
+      // Content Library's card grid, the Quick Contact social links, and the
+      // "Start a project" form fields all read as jittery with the magnetic
+      // pull-to-center, so the ring just tracks the raw pointer there —
+      // Content Library's own tabs and the form's submit button keep the
+      // magnet, like everywhere else.
+      const inContentLibrary = Boolean(e.target.closest("#content-library"));
+      const isTab = Boolean(e.target.closest(".content-tab"));
+      const isNoMagnetLink = Boolean(e.target.closest(".contact-link-row, .contact-field"));
+      const noMagnetZone = (inContentLibrary && !isTab) || isNoMagnetLink;
+      magnetTarget.current = noMagnetZone ? null : el;
       if (el && !isHover.current) {
         isHover.current = true;
         ringEl.classList.add("cursor-ring--hover");
@@ -33,10 +42,12 @@ export default function Cursor() {
 
       // The default pink ring (mix-blend-mode: multiply) disappears against
       // dark surfaces — swap to a plain light ring while over the dark hero
-      // photo, or the header while it's inverted over that hero (it's a
-      // fixed sibling, not a descendant, so it needs its own check).
+      // photo, the header while it's inverted over that hero, or the
+      // near-black Content Library lightbox backdrop (all portalled/fixed
+      // siblings, not descendants of one shared root, so each needs its own
+      // check).
       const overDarkSurface = Boolean(
-        e.target.closest(".kairuxs-hero--dark, .kairuxs-header--on-dark")
+        e.target.closest(".kairuxs-hero--dark, .kairuxs-header--on-dark, .content-modal")
       );
       if (overDarkSurface !== onDark.current) {
         onDark.current = overDarkSurface;
